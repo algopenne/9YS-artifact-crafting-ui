@@ -1,0 +1,190 @@
+{
+  "Recipes": [
+    {
+      "__EMPTY": "Tide-Severing Sword (Water Root)",
+      "Matrix Material Requirement": "Deep Sea Iron"
+    },
+    {
+      "__EMPTY": "Crimson Storm Feather-Fan (Lightning Root)",
+      "Matrix Material Requirement": "Thunder Bamboo",
+      "Source Material Requirement": "Netherflame Crystal"
+    },
+    {
+      "__EMPTY": "Scorched Shell Aegis (Fire Root)",
+      "Matrix Material Requirement": "Magma Turtle Shell",
+      "Source Material Requirement": "Netherflame Crystal",
+      "Demon Core Requirement": "Demon Heart"
+    },
+    {
+      "__EMPTY": "Void Star Blade (Metal Root)",
+      "Matrix Material Requirement": "Heavenly Starfall Iron",
+      "Source Material Requirement": "Razoredge Obsidian",
+      "Demon Core Requirement": "Demon Heart",
+      "Spirit Essence Requirement": "Spirit Wolf Soul"
+    }
+  ],
+  "Materials": [
+    {
+      "__EMPTY": "Tier 1",
+      "Matrix Material ": "Deep Sea Iron( Water root)"
+    },
+    {
+      "__EMPTY": "Tier 2",
+      "Matrix Material ": "Thunder Bamboo (Lightning Root)\nMagma Turtle Shell (Fire Root)",
+      "Source Material ": "Netherflame Crystal\nRazoredge Obsidian",
+      "Demon Core ": "Demon Heart"
+    },
+    {
+      "__EMPTY": "Tier 3",
+      "Matrix Material ": "Heavenly Starfall Iron(Metal Root)",
+      "Spirit Essence ": "Spirit Wolf Soul"
+    }
+  ],
+  "Harmonization": [
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Global Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Dormant Core, Suppressed Aura, Sealed Might"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Attack Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Unsharpened Qi, Bound Strike, Dull Edge"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Spell Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Faded Rune, Muted Incantation, Dimmed Array"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Physical Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Blunt Mass, Softened Alloy, Weakened Impact"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Mental Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Clouded Intent, Fractured Will, Murky Mindscape"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Elemental Damage",
+      "Impurity / Seal Title (The Minigame Trigger)": "Stifled Spark, Ashen Core, Frozen Meridian"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Poise Damage Force",
+      "Impurity / Seal Title (The Minigame Trigger)": "Faltering Momentum, Hollow Force, Featherweight Strike"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Barrier Penetration",
+      "Impurity / Seal Title (The Minigame Trigger)": "Blunt Qi Needle, Shallow Pierce, Deflected Intent"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Crit Chance",
+      "Impurity / Seal Title (The Minigame Trigger)": "Misaligned Stars, Blurred Focus, Wavering Strike"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Crit Multiplier",
+      "Impurity / Seal Title (The Minigame Trigger)": "Restrained Ferocity, Capped Limits, Suppressed Burst"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Spirit Sense Injury",
+      "Impurity / Seal Title (The Minigame Trigger)": "Shallow Soul-Bite, Dull Spiritual Edge, Weakened Mind-Rend"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Spirit Sense Damage Strength",
+      "Impurity / Seal Title (The Minigame Trigger)": "Fraying Thread, Diluted Soul-Poison, Dispersed Intent"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Spirit Sense Penetration",
+      "Impurity / Seal Title (The Minigame Trigger)": "Blocked Mind-Eye, Tangled Sense-Weave, Obstructed Gaze"
+    },
+    {
+      "Flaw Category": "Offensive",
+      "Stat Name (English)": "Spirit Sense Interference Strength",
+      "Impurity / Seal Title (The Minigame Trigger)": "Feeble Illusion, Weakened Static, Faltering Disruption"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Elemental Damage Resist",
+      "Impurity / Seal Title (The Minigame Trigger)": "Porous Coating, Tarnished Glaze, Leaking Qi"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Mental Damage Resist",
+      "Impurity / Seal Title (The Minigame Trigger)": "Brittle Mind-Wall, Open Consciousness, Fragile Soul-Barrier"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Rebound",
+      "Impurity / Seal Title (The Minigame Trigger)": "Absorbing Matrix, Dull Reflection, Shattered Mirror-Rune"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Poise Damage Resist",
+      "Impurity / Seal Title (The Minigame Trigger)": "Brittle Stance, Unrooted Core, Faltering Anchor"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Crit Resist",
+      "Impurity / Seal Title (The Minigame Trigger)": "Exposed Weakness, Unveiled Core, Fractured Aegis"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Spirit Sense Resist Strength",
+      "Impurity / Seal Title (The Minigame Trigger)": "Thin Spiritual Veil, Torn Sense-Net, Fading Mind-Ward"
+    },
+    {
+      "Flaw Category": "Defensive",
+      "Stat Name (English)": "Spirit Sense Interference Resist Strength",
+      "Impurity / Seal Title (The Minigame Trigger)": "Susceptible Qi, Clouded Receptors, Unstable Mind-Focus"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Skill Cooldown",
+      "Impurity / Seal Title (The Minigame Trigger)": "Sluggish Arrays, Tangled Meridians, Stagnant Qi Flow"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Spirit Sense Reserve",
+      "Impurity / Seal Title (The Minigame Trigger)": "Heavy Core, Bloated Energy, Inefficient Tether"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Fabao Amplification",
+      "Impurity / Seal Title (The Minigame Trigger)": "Muted Resonance, Disconnected Soul-Link, Faded Synchronization"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Control Distance Increase",
+      "Impurity / Seal Title (The Minigame Trigger)": "Shortened Tether, Fraying Connection, Nearsighted Array"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Max Speed",
+      "Impurity / Seal Title (The Minigame Trigger)": "Dragging Anchor, Lead-Lined Chassis, Air-Bound Friction"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Acceleration",
+      "Impurity / Seal Title (The Minigame Trigger)": "Hesitant Start, Sputtering Engine-Core, Delayed Thrust"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Maneuverability",
+      "Impurity / Seal Title (The Minigame Trigger)": "Stiff Joints, Rigid Flight-Path, Unbalanced Weight"
+    },
+    {
+      "Flaw Category": "Utility / Mobility",
+      "Stat Name (English)": "Artifact Flight Mana Cost",
+      "Impurity / Seal Title (The Minigame Trigger)": "Leaking Reserve, Gluttonous Core, Inefficient Qi-Burn"
+    }
+  ]
+}
