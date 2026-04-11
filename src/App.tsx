@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.css';
-import type { CraftingContext } from "../types";
+import type { CraftingContext, GameState } from "./types";
 import SelectRecipe from './components/SelectRecipe';
 import ChooseMaterials from './components/ChooseMaterials';
 import SmeltMaterials from './components/SmeltMaterials';

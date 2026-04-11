@@ -21,7 +21,7 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
   const [invested, setInvested] = useState(0);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (isSmelting && progress < 100) {
       interval = setInterval(() => {
         // Base rate is 0.5% per tick, investing speeds it up slightly per tick
@@ -29,7 +29,7 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
         setProgress(p => Math.min(100, p + 0.5 + speedBonus));
       }, 100);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(interval!);
   }, [isSmelting, progress, invested]);
 
   const handleStart = () => {
