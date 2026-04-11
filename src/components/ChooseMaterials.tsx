@@ -28,7 +28,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
       <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Gather Materials</h2>
       <p className="text-dim text-magic" style={{ marginBottom: '2rem' }}>Confirm the required ingredients to begin.</p>
       
-      <div className="panel" style={{ maxWidth: '600px', width: '100%', marginBottom: '2rem' }}>
+      <div className="panel" style={{ maxWidth: '800px', width: '100%', marginBottom: '2rem' }}>
         <h3 className="text-gold" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem' }}>
           {recipe["__EMPTY"]}
         </h3>
@@ -63,7 +63,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
       </button>
 
       {/* Inventory Row Container Below */}
-      <div style={{ width: '100%', maxWidth: '600px' }}>
+      <div style={{ width: '100%', maxWidth: '800px' }}>
          <Inventory highlightedRecipe={recipe} />
       </div>
     </div>
