@@ -364,5 +364,39 @@ button.danger:hover {
   font-family: var(--font-mono);
   color: var(--color-gold);
   font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+/* --- Stat Animation --- */
+
+@keyframes stat-pulse {
+  0% { transform: scale(1); background-color: rgba(255, 255, 255, 0.02); color: var(--color-gold); box-shadow: none; }
+  15% { transform: scale(1.1); background-color: rgba(0, 255, 255, 0.2); color: #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.5); }
+  100% { transform: scale(1); background-color: rgba(255, 255, 255, 0.02); color: var(--color-gold); box-shadow: none; }
+}
+
+.stat-pulse-animation {
+  animation: stat-pulse 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.stat-pulse-animation .stat-value {
+  color: #00ffff !important;
+}
+
+.stat-harmonized-cyan {
+  border-color: rgba(0, 255, 255, 0.4) !important;
+  background: rgba(0, 255, 255, 0.05) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
+}
+
+.stat-harmonized-cyan .stat-label {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.stat-harmonized-cyan .stat-value {
+  color: #00ffff !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  font-weight: bold;
 }
 

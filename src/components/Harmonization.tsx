@@ -67,6 +67,7 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
     const chosenCard = cards[idx];
     const newStats = { ...context.stats };
     const statName = chosenCard.stat;
+    const newHarmonizedStats = [...context.harmonizedStats, statName];
     
     // Apply the buff
     newStats[statName] = (newStats[statName] || 100) + chosenCard.buff;
@@ -81,7 +82,10 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
 
     setContext({
       ...context,
-      stats: newStats
+      stats: newStats,
+      lastUpdatedStat: statName,
+      lastUpdateTimestamp: Date.now(),
+      harmonizedStats: newHarmonizedStats
     });
 
     if (activeIdx < 2) {

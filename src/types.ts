@@ -9,4 +9,7 @@ export interface CraftingContext {
   chosenFlawCategory: string | null;
   chosenHarmonizationCard: any | null;
   stats: Record<string, number>;
+  lastUpdatedStat?: string;
+  lastUpdateTimestamp?: number;
+  harmonizedStats: string[];
 }
