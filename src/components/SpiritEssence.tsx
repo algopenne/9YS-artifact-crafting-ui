@@ -14,8 +14,8 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'magenta' }}>Awaken Spirit Essence</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '3rem', textAlign: 'center', maxWidth: '600px' }}>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', color: 'magenta' }}>Awaken Spirit Essence</h1>
+      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem', textAlign: 'center', maxWidth: '600px' }}>
         Tether a true soul to the artifact. It will gain intelligence, personality, and become a sentient autonomous companion (FaBao).
       </p>
 

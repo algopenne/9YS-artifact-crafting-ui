@@ -20,8 +20,8 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Shape Material</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '4rem' }}>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Shape Material</h1>
+      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>
         Watching the pure primordial energy crystallize into its true form...
       </p>
 

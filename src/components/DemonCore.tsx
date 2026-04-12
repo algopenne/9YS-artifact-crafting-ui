@@ -19,8 +19,8 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Inject Demon Core</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '3rem', textAlign: 'center', maxWidth: '600px' }}>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Inject Demon Core</h1>
+      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem', textAlign: 'center', maxWidth: '600px' }}>
         Elevate your Fabing to a Ling Qi by binding a demon's core to the artifact's matrix, granting it powers of levitation and telekinesis.
       </p>
 

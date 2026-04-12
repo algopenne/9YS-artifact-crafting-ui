@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 
@@ -8,72 +8,131 @@ interface HarmonizationProps {
   onConfirm: () => void;
 }
 
+interface FlawInstance {
+  category: string;
+  title: string;
+  pickIdx: number;
+  options: any[];
+}
+
 export default function Harmonization({ context, setContext, onConfirm }: HarmonizationProps) {
-  const [flaw, setFlaw] = useState<{ category: string, title: string } | null>(null);
+  const [flaws, setFlaws] = useState<FlawInstance[]>([]);
+  const [activeIdx, setActiveIdx] = useState(0);
   const [cards, setCards] = useState<any[]>([]);
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [results, setResults] = useState<any[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
 
-  useEffect(() => {
-    // 1. Pick a random category
-    const categories = ['Offensive', 'Defensive', 'Utility / Mobility'];
-    const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
-    
-    // 2. Filter harmonizations 
-    const options = data.Harmonization.filter(h => h["Flaw Category"] === selectedCategory);
-    
-    // 3. Pick a random impurity title from one of the options
-    const randomOption = options[Math.floor(Math.random() * options.length)];
-    const titles = randomOption["Impurity / Seal Title (The Minigame Trigger)"]?.split(', ') || ['Unknown Flaw'];
-    const title = titles[Math.floor(Math.random() * titles.length)];
-
-    setFlaw({ category: selectedCategory, title });
-
-    // 4. Generate 3 unique cards based on stats available in that category
-    const shuffledOptions = [...options].sort(() => 0.5 - Math.random());
-    const validCards = shuffledOptions.slice(0, 3).map(opt => ({
-      stat: opt["Stat Name (English)"],
-      buff: Math.floor(Math.random() * 15) + 5 // +5% to +20% buff
-    }));
-
+  // Helper to generate 3 cards for a given flaw instance
+  const generateCardsForFlaw = useCallback((flawInst: FlawInstance) => {
+    const shuffledOptions = [...flawInst.options].sort(() => 0.5 - Math.random());
+    const validCards = shuffledOptions.slice(0, 3).map(opt => {
+      const cardResolutions = opt["Resolution / Solution Title"]?.split(', ') || ['Harmonization Applied'];
+      return {
+        stat: opt["Stat Name (English)"],
+        buff: Math.floor(Math.random() * 15) + 5,
+        resolution: cardResolutions[flawInst.pickIdx] || cardResolutions[0]
+      };
+    });
     setCards(validCards);
   }, []);
 
+  useEffect(() => {
+    // 1. Generate 3 unique flaws
+    const categories = ['Offensive', 'Defensive', 'Utility / Mobility'];
+    const chosen: FlawInstance[] = [];
+    
+    // Attempt categories sequentially for diversity
+    for (let i = 0; i < 3; i++) {
+      const cat = categories[i % categories.length];
+      const options = data.Harmonization.filter(h => h["Flaw Category"] === cat);
+      const randomOption = options[Math.floor(Math.random() * options.length)];
+      
+      const titles = randomOption["Impurity / Seal Title (The Minigame Trigger)"]?.split(', ') || ['Unknown Flaw'];
+      const pickIdx = Math.floor(Math.random() * titles.length);
+      const title = titles[pickIdx];
+
+      chosen.push({
+        category: cat,
+        title,
+        pickIdx,
+        options
+      });
+    }
+    
+    setFlaws(chosen);
+    generateCardsForFlaw(chosen[0]);
+  }, [generateCardsForFlaw]);
+
   const handleSelect = (idx: number) => {
-    setSelectedCard(idx);
+    const chosenCard = cards[idx];
+    const newStats = { ...context.stats };
+    const statName = chosenCard.stat;
+    
+    // Apply the buff
+    newStats[statName] = (newStats[statName] || 100) + chosenCard.buff;
+
+    const newResults = [...results, {
+      flawTitle: flaws[activeIdx].title,
+      resolution: chosenCard.resolution,
+      stat: chosenCard.stat,
+      buff: chosenCard.buff
+    }];
+    setResults(newResults);
+
     setContext({
       ...context,
-      chosenFlawCategory: flaw?.category || null,
-      chosenHarmonizationCard: cards[idx]
+      stats: newStats
     });
+
+    if (activeIdx < 2) {
+      const nextIdx = activeIdx + 1;
+      setActiveIdx(nextIdx);
+      generateCardsForFlaw(flaws[nextIdx]);
+    } else {
+      setIsFinished(true);
+    }
   };
 
-  if (!flaw) return null;
+  if (flaws.length === 0) return null;
+
+  const currentFlaw = flaws[activeIdx];
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--color-primary)' }}>Harmonization</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '3rem', textAlign: 'center', maxWidth: '800px' }}>
-        A flaw emerges in the matrix during synthesis. Turn this imperfection into an opportunity!
-      </p>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', color: 'var(--color-primary)' }}>Harmonization</h1>
+      
+      {!isFinished ? (
+        <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{ 
+                width: '12px', height: '12px', borderRadius: '50%',
+                background: i === activeIdx ? 'var(--color-primary)' : i < activeIdx ? 'var(--color-gold)' : 'rgba(255,255,255,0.1)',
+                boxShadow: i === activeIdx ? '0 0 10px var(--color-primary)' : 'none'
+              }}></div>
+            ))}
+          </div>
+          
+          <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+            Purification Step {activeIdx + 1} of 3
+          </p>
 
-      {!selectedCard && selectedCard !== 0 ? (
-        <div style={{ width: '100%', maxWidth: '1000px' }}>
-          <div className="flaw-container" style={{ marginBottom: '3rem' }}>
-            <h3 className="flaw-title">Flaw Detected: {flaw.title}</h3>
-            <p style={{ margin: 0 }}>Category: {flaw.category}</p>
+          <div className="flaw-container" style={{ marginBottom: '3rem', border: '1px solid rgba(255,0,0,0.3)', background: 'rgba(255,0,0,0.05)' }}>
+            <p className="text-dim" style={{ fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>{currentFlaw.category} Anomalous Pattern</p>
+            <h3 className="flaw-title" style={{ margin: 0 }}>Detected: {currentFlaw.title}</h3>
           </div>
 
           <div className="item-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
             {cards.map((card, idx) => (
               <div key={idx} className="card-draw" onClick={() => handleSelect(idx)}>
                 <h4 style={{ color: 'var(--color-magic)', fontSize: '1.2rem', marginBottom: '1rem' }}>
-                  {flaw.category === 'Offensive' ? '⚔️' : flaw.category === 'Defensive' ? '🛡️' : '🦅'}
+                   {currentFlaw.category === 'Offensive' ? '⚔️' : currentFlaw.category === 'Defensive' ? '🛡️' : '🦅'}
                 </h4>
-                <h3 style={{ marginBottom: '1rem' }}>Rewrite Matrix</h3>
-                <p style={{ fontSize: '1.2rem', color: 'var(--color-text)' }}>
+                <h3 style={{ marginBottom: '1rem', color: 'var(--color-primary)', fontSize: '1.1rem' }}>{card.resolution}</h3>
+                <p style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>
                    Increase <br/> <strong className="text-gold">{card.stat}</strong>
                 </p>
-                <div style={{ fontSize: '2rem', color: 'var(--color-primary)', fontWeight: 'bold' }}>
+                <div style={{ fontSize: '1.8rem', color: 'var(--color-primary)', fontWeight: 'bold' }}>
                   +{card.buff}%
                 </div>
               </div>
@@ -81,14 +140,33 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
           </div>
         </div>
       ) : (
-        <div style={{ textAlign: 'center' }}>
-          <div className="card-draw" style={{ width: '300px', margin: '0 auto 2rem auto', transform: 'none', cursor: 'default' }}>
-            <h3 style={{ marginBottom: '1rem' }}>Harmonized!</h3>
-            <p style={{ fontSize: '1.2rem' }}>
-               <strong className="text-gold">{cards[selectedCard].stat}</strong> raised by +{cards[selectedCard].buff}%
-            </p>
+        <div style={{ width: '100%', maxWidth: '800px', textAlign: 'center' }}>
+          <h2 className="text-gold" style={{ fontSize: '2rem', marginBottom: '2rem' }}>Purification Complete</h2>
+          <p className="text-magic" style={{ marginBottom: '3rem' }}>The artifact matrix has reached a state of perfect resonance.</p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '3rem' }}>
+            {results.map((res, i) => (
+              <div key={i} className="panel" style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: '1.5rem',
+                border: '1px solid var(--color-border)',
+                background: 'rgba(255,255,255,0.03)'
+              }}>
+                <div style={{ textAlign: 'left' }}>
+                  <p className="text-dim" style={{ fontSize: '0.8rem', margin: 0 }}>FLAW: {res.flawTitle}</p>
+                  <h4 className="text-gold" style={{ margin: '0.2rem 0' }}>{res.resolution}</h4>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ margin: 0, fontSize: '1.1rem' }}>{res.stat}</p>
+                  <p style={{ margin: 0, color: 'var(--color-primary)', fontWeight: 'bold' }}>+{res.buff}%</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <button className="primary" onClick={onConfirm} style={{ padding: '1rem 3rem', fontSize: '1.2rem' }}>
+
+          <button className="primary" onClick={onConfirm} style={{ padding: '1rem 4rem', fontSize: '1.3rem' }}>
             Conclude Harmonization
           </button>
         </div>

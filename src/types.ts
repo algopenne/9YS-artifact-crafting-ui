@@ -8,4 +8,5 @@ export interface CraftingContext {
   investedStones: number;
   chosenFlawCategory: string | null;
   chosenHarmonizationCard: any | null;
+  stats: Record<string, number>;
 }

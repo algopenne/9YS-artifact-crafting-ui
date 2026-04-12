@@ -9,6 +9,14 @@ import DemonCore from './components/DemonCore';
 import SpiritEssence from './components/SpiritEssence';
 import Harmonization from './components/Harmonization';
 import FinalTempering from './components/FinalTempering';
+import StatSidebar from './components/StatSidebar';
+import data from './data.json';
+
+// Initialize stats from data.json
+const INITIAL_STATS: Record<string, number> = {};
+data.Harmonization.forEach(h => {
+  INITIAL_STATS[h["Stat Name (English)"]] = 100;
+});
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('RECIPE');
@@ -17,7 +25,8 @@ function App() {
     tier: 'Fabing',
     investedStones: 0,
     chosenFlawCategory: null,
-    chosenHarmonizationCard: null
+    chosenHarmonizationCard: null,
+    stats: INITIAL_STATS
   });
 
   const resetGame = () => {
@@ -27,25 +36,39 @@ function App() {
       tier: 'Fabing',
       investedStones: 0,
       chosenFlawCategory: null,
-      chosenHarmonizationCard: null
+      chosenHarmonizationCard: null,
+      stats: INITIAL_STATS
     });
   };
 
   return (
-    <div className="layout" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', height: '100vh', width: '100vw' }}>
-      <div className="menu-box" style={{ 
-         background: 'var(--color-bg-base)', 
-         padding: '2rem', 
-         borderRadius: '16px', 
-         border: '2px solid var(--color-border)', 
-         boxShadow: '0 10px 40px rgba(0,0,0,0.8)', 
-         width: '90%', 
-         maxWidth: '1200px', 
-         height: '90vh', 
-         overflowY: 'auto', 
-         display: 'flex', 
-         flexDirection: 'column' 
+    <div className="layout" style={{ 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      display: 'flex', 
+      height: '100vh', 
+      width: '100vw',
+      overflow: 'hidden'
+    }}>
+      <div style={{ 
+        display: 'flex', 
+        gap: '2rem', 
+        width: '95%', 
+        maxWidth: '1600px', 
+        height: '90vh',
+        alignItems: 'stretch'
       }}>
+        <div className="menu-box" style={{ 
+           flex: 1,
+           background: 'var(--color-bg-base)', 
+           padding: '2rem', 
+           borderRadius: '16px', 
+           border: '2px solid var(--color-border)', 
+           boxShadow: '0 10px 40px rgba(0,0,0,0.8)', 
+           overflowY: 'auto', 
+           display: 'flex', 
+           flexDirection: 'column' 
+        }}>
       {gameState !== 'RECIPE' && (
         <header className="layout-header">
           <button style={{ position: 'absolute', left: 0, top: 0 }} onClick={resetGame}>Back to Recipes</button>
@@ -118,6 +141,11 @@ function App() {
           <FinalTempering context={context} onRestart={resetGame} />
         )}
       </div>
+      </div>
+      
+      {gameState !== 'RECIPE' && (
+        <StatSidebar stats={context.stats} />
+      )}
       </div>
     </div>
   );

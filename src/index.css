@@ -152,6 +152,7 @@ button.danger:hover {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  justify-content: center;
 }
 
 .selectable-card {
@@ -275,3 +276,93 @@ button.danger:hover {
 .has-tooltip { position: relative; }
 .custom-tooltip { visibility: hidden; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); width: max-content; max-width: 250px; background-color: var(--color-bg-base); color: var(--color-text); text-align: left; border-radius: 8px; padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--color-border); z-index: 100; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
 .has-tooltip:hover .custom-tooltip { visibility: visible; opacity: 1; }
+
+.material-thumb-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.material-thumb {
+  position: relative;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.8rem;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: help;
+  transition: all 0.2s;
+}
+
+.material-thumb-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.material-thumb-cost {
+  color: var(--color-magic);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.material-tooltip-content {
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 220px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 1000;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+  pointer-events: none;
+  text-align: left;
+}
+
+.material-thumb:hover .material-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+.stat-grid-dense {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem 0.6rem;
+}
+
+.stat-item-dense {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.stat-item-dense .stat-label {
+  font-size: 0.65rem;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+
+.stat-item-dense .stat-value {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-gold);
+  font-weight: bold;
+}
+

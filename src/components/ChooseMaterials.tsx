@@ -25,46 +25,51 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Gather Materials</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '2rem' }}>Confirm the required ingredients to begin.</p>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Gather Materials</h1>
+      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>Confirm the required ingredients to begin.</p>
       
-      <div className="panel" style={{ maxWidth: '800px', width: '100%', marginBottom: '2rem' }}>
-        <h3 className="text-gold" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem' }}>
-          {recipe["__EMPTY"]}
-        </h3>
+      {/* Unified Centered Constraint Wrapper */}
+      <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="panel" style={{ width: '100%', marginBottom: '2rem' }}>
+          <h3 className="text-gold" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem', textAlign: 'center' }}>
+            {recipe["__EMPTY"]}
+          </h3>
 
-        {materials.map((m, idx) => (
-          <div key={idx} className="material-panel" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div className="material-header">{m.type}</div>
-              <div style={{ fontSize: '1.1rem' }}>{m.name}</div>
-              <div className="text-dim" style={{ fontSize: '0.8rem', marginTop: '0.2rem' }}>Root Alignment: {m.root}</div>
-            </div>
-            <div className="text-magic" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-              {m.cost} SS
-            </div>
+          <div className="material-thumb-container">
+            {materials.map((m, idx) => (
+              <div key={idx} className="material-thumb">
+                <div className="material-thumb-icon">
+                  {idx === 0 ? '💎' : idx === 1 ? '🌿' : idx === 2 ? '🌀' : '🔮'}
+                </div>
+                <div className="material-thumb-cost">{m.cost} SS</div>
+                
+                {/* Hover Tooltip */}
+                <div className="material-tooltip-content">
+                  <div className="text-primary" style={{ fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.4rem' }}>{m.type}</div>
+                  <div style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: 'var(--color-gold)' }}>{m.name}</div>
+                  <div className="text-dim" style={{ fontSize: '0.8rem' }}>Root: {m.root}</div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-        
-        <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--color-primary)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
-            <span className="text-dim">Calculated Elemental Root:</span>
-            <strong className="text-primary">{finalRoot}</strong>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem' }}>
-            <span className="text-dim">Total Spirit Stone Cost:</span>
-            <strong className="text-magic">{totalCost} SS</strong>
+          
+          <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--color-primary)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+              <span className="text-dim">Calculated Elemental Root:</span>
+              <strong className="text-primary">{finalRoot}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem' }}>
+              <span className="text-dim">Total Spirit Stone Cost:</span>
+              <strong className="text-magic">{totalCost} SS</strong>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button className="primary" onClick={onConfirm} style={{ padding: '1rem 3rem', fontSize: '1.2rem', marginBottom: '2rem' }}>
-        Consume Materials & Confirm
-      </button>
+        <button className="primary" onClick={onConfirm} style={{ padding: '1rem 3rem', fontSize: '1.2rem', marginBottom: '2rem' }}>
+          Consume Materials & Confirm
+        </button>
 
-      {/* Inventory Row Container Below */}
-      <div style={{ width: '100%', maxWidth: '800px' }}>
-         <Inventory highlightedRecipe={recipe} />
+        <Inventory highlightedRecipe={recipe} />
       </div>
     </div>
   );

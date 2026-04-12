@@ -50,10 +50,11 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
        <p className="text-dim" style={{ fontSize: '0.8rem', marginBottom: '1.5rem' }}>Player's Materials</p>
 
        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', 
+          display: 'flex', 
+          flexWrap: 'wrap',
           gap: '1rem',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          alignItems: 'center'
        }}>
           {inventory.map(mat => {
              const highlighted = isMaterialHighlighted(mat);

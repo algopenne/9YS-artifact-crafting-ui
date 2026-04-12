@@ -8,13 +8,22 @@ interface SmeltMaterialsProps {
 }
 
 const FIRES = [
-  { name: 'Earth Vein Primordial Flame', stage: 'Qi Refining', cost: 100 },
-  { name: 'Samadhi True Fire', stage: 'Foundation Establishment', cost: 500 },
-  { name: 'Danyang Celestial Flame', stage: 'Golden Core', cost: 2000 },
-  { name: 'True Void Flame', stage: 'Nascent Soul', cost: 10000 },
+  { name: 'Earth Vein Primordial Flame', stage: 'Qi Refining', cost: 100, tier: 1 },
+  { name: 'Samadhi True Fire', stage: 'Foundation Establishment', cost: 500, tier: 2 },
+  { name: 'Danyang Celestial Flame', stage: 'Golden Core', cost: 2000, tier: 3 },
+  { name: 'True Void Flame', stage: 'Nascent Soul', cost: 10000, tier: 4 },
 ];
 
 export default function SmeltMaterials({ context, setContext, onConfirm }: SmeltMaterialsProps) {
+  // Determine artifact tier based on recipe index
+  // 0: Sword (T1), 1: Fan (T2), 2: Aegis (T2), 3: Blade (T3)
+  const getArtifactTier = () => {
+    if (context.recipeIndex === 3) return 3;
+    if (context.recipeIndex === 1 || context.recipeIndex === 2) return 2;
+    return 1;
+  };
+
+  const artifactTier = getArtifactTier();
   const [selectedFire, setSelectedFire] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [isSmelting, setIsSmelting] = useState(false);
@@ -46,24 +55,59 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Smelt Materials</h2>
-      <p className="text-dim text-magic" style={{ marginBottom: '2rem' }}>Select a spiritual fire and manage the smelting process.</p>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Smelt Materials</h1>
+      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>Select a spiritual fire and manage the smelting process.</p>
 
       {!isSmelting ? (
         <div style={{ width: '100%', maxWidth: '800px' }}>
           <div className="item-grid">
-            {FIRES.map((fire, idx) => (
-              <div 
-                key={idx} 
-                className={`selectable-card ${selectedFire === idx ? 'selected' : ''}`}
-                onClick={() => setSelectedFire(idx)}
-              >
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem', filter: selectedFire === idx ? 'drop-shadow(0 0 10px red)' : '' }}>🔥</div>
-                <h3 className={selectedFire === idx ? 'text-gold' : ''}>{fire.name}</h3>
-                <p className="text-dim" style={{ marginBottom: '0.5rem' }}>Stage: {fire.stage}</p>
-                <p className="text-magic" style={{ margin: 0 }}>Base Fuel Cost: {fire.cost} SS</p>
-              </div>
-            ))}
+            {FIRES.map((fire, idx) => {
+              const isTooWeak = fire.tier < artifactTier;
+              const isSealed = fire.name === 'True Void Flame';
+              const isDisabled = isTooWeak || isSealed;
+
+              return (
+                <div 
+                  key={idx} 
+                  className={`selectable-card ${selectedFire === idx ? 'selected' : ''}`}
+                  onClick={() => !isDisabled && setSelectedFire(idx)}
+                  style={{
+                    opacity: isDisabled ? 0.5 : 1,
+                    filter: isDisabled ? 'grayscale(0.8)' : 'none',
+                    cursor: isDisabled ? 'not-allowed' : 'pointer',
+                    position: 'relative',
+                    borderColor: isDisabled ? 'rgba(255,0,0,0.2)' : 'var(--color-border)'
+                  }}
+                >
+                  <div style={{ 
+                    fontSize: '3rem', 
+                    marginBottom: '1rem', 
+                    height: '60px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    filter: selectedFire === idx ? 'drop-shadow(0 0 10px red)' : '' 
+                  }}>
+                    {isSealed ? '🔒' : '🔥'}
+                  </div>
+                  <h3 className={selectedFire === idx ? 'text-gold' : ''}>{fire.name}</h3>
+                  <p className="text-dim" style={{ marginBottom: '0.5rem' }}>Stage: {fire.stage}</p>
+                  
+                  {isTooWeak && (
+                    <p style={{ color: '#ff4444', fontWeight: 'bold', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+                      Intrinsic Heat Insufficient for Tier {artifactTier} Artifact
+                    </p>
+                  )}
+                  {isSealed && (
+                    <p style={{ color: '#ff4444', fontWeight: 'bold', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+                      Flame Source Sealed / Unknown
+                    </p>
+                  )}
+                  
+                  {!isDisabled && <p className="text-magic" style={{ margin: 0 }}>Base Fuel Cost: {fire.cost} SS</p>}
+                </div>
+              );
+            })}
           </div>
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
             <button className="primary" onClick={handleStart} disabled={selectedFire === null}>
