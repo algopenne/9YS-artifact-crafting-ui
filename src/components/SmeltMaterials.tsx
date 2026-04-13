@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import type { CraftingContext } from "../types";
 import { dict, DualText, DualInline } from '../i18n';
 
+const getFlameIcon = (flameName: string) => {
+  if (flameName === 'Earth Vein Primordial Flame') return '/src/assets/flame-earth-vein-primordial.png';
+  if (flameName === 'Samadhi True Fire') return '/src/assets/flame-samadhi-true.png';
+  if (flameName === 'Danyang Celestial Flame') return '/src/assets/flame-danyang-celestial.png';
+  if (flameName === 'True Void Flame') return '/src/assets/flame-true-void.png';
+  return '??'; // fallback emoji
+};
+
 interface SmeltMaterialsProps {
   context: CraftingContext;
   setContext: (ctx: CraftingContext) => void;
@@ -96,25 +104,31 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
                     borderColor: selectedFire === idx ? 'var(--color-primary)' : borderColor,
                     boxShadow: selectedFire === idx
                       ? `0 0 14px var(--color-primary-dim)`
-                      : isDisabled ? 'none' : `0 0 8px ${tierColors[fire.tier]}22`
+                      : isDisabled ? 'none' : `0 0 8px ${tierColors[fire.tier]}22`,
+                    backgroundImage: `url(${getFlameIcon(fire.name)})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundBlendMode: 'overlay',
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)'
                   }}
                 >
                   <div style={{ 
-                    fontSize: '3rem', 
-                    marginBottom: '1rem', 
-                    height: '60px', 
+                    fontSize: '1rem', 
+                    marginBottom: '0.5rem', 
+                    flex: 1, 
+                    width: '100%', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
-                    filter: selectedFire === idx ? `drop-shadow(0 0 10px ${tierColors[fire.tier]})` : '' 
+                    color: 'white',
+                    textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.9)',
+                    fontWeight: 'bold'
                   }}>
-                    {isSealed ? '🔒' : '🔥'}
-                  </div>
-                  <h3 className={selectedFire === idx ? 'text-gold' : ''} style={{ fontSize: '1rem', margin: '0 0 0.5rem 0' }}>
+                    {isSealed}
                     <DualText en={fire.name} zh={fire.zh} />
-                  </h3>
-                  <div className="text-dim" style={{ marginBottom: '0.5rem', fontSize: '0.85rem' }}>
-                    <DualInline en={`Stage: ${fire.stage}`} zh={`境界: ${fire.stageZh}`} />
+                  </div>
+                  <div style={{ marginBottom: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', textShadow: '0 0 4px rgba(0,0,0,0.8)' }}>
+                    <DualInline en={`Stage: ${fire.stage}`} zh={`\u5883\u754c: ${fire.stageZh}`} />
                   </div>
                   
                   {isTooWeak && (
@@ -143,40 +157,57 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
           </div>
         </div>
       ) : (
-        <div className="panel" style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
-          <div style={{ fontSize: '5rem', marginBottom: '1rem' }} className="layer-fire-flicker">🔥</div>
-          <h3 className="text-gold" style={{ marginBottom: '2rem' }}>
-            <DualInline en={`${FIRES[selectedFire!].name} Active`} zh={`${FIRES[selectedFire!].zh} 运行中`} />
-          </h3>
-          
-          <div className="smelt-progress-bg">
-            <div className="smelt-progress-fill" style={{ width: `${progress}%` }}></div>
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', textShadow: '0 0 5px black' }}>
-              {Math.floor(progress)}%
-            </div>
+        <div style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
+          {/* Top section with flame background */}
+          <div className="layer-fire-flicker" style={{
+            height: '200px',
+            backgroundImage: `url(${getFlameIcon(FIRES[selectedFire!].name)})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundBlendMode: 'overlay',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '1rem'
+          }}>
+            <h3 className="text-gold" style={{ color: 'white', textShadow: '0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(255,100,0,0.8)' }}>
+              <DualInline en={`${FIRES[selectedFire!].name} Active`} zh={`${FIRES[selectedFire!].zh} \u8fd0\u884c\u4e2d`} />
+            </h3>
           </div>
+          
+          {/* Bottom section with backdrop for text and controls */}
+          <div className="panel" style={{ padding: '2rem' }}>
+            <div className="smelt-progress-bg">
+              <div className="smelt-progress-fill" style={{ width: `${progress}%` }}></div>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', textShadow: '0 0 5px black' }}>
+                {Math.floor(progress)}%
+              </div>
+            </div>
 
-          {progress < 100 ? (
-            <div>
-              <div className="text-dim" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
-                <DualText en="Smelting is a long arduous process. Burn spirit stones to accelerate it." zh="熔炼需时极长。燃烧灵石可加速进度。" />
+            {progress < 100 ? (
+              <div>
+                <div className="text-dim" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
+                  <DualText en="Smelting is a long arduous process. Burn spirit stones to accelerate it." zh="熔炼需时极长。燃烧灵石可加速进度。" />
+                </div>
+                <button className="danger" onClick={handleInvest}>
+                  <span className="kbd-badge">E</span>
+                  <DualInline en={`Burn 100 Spirit Stones (Invested: ${invested})`} zh={`消耗100灵石 (已投入: ${invested})`} />
+                </button>
               </div>
-              <button className="danger" onClick={handleInvest}>
-                <span className="kbd-badge">E</span>
-                <DualInline en={`Burn 100 Spirit Stones (Invested: ${invested})`} zh={`消耗100灵石 (已投入: ${invested})`} />
-              </button>
-            </div>
-          ) : (
-            <div>
-              <div className="text-magic" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                <DualText en="Smelting Complete!" zh="熔炼完成！" />
+            ) : (
+              <div>
+                <div className="text-magic" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+                  <DualText en="Smelting Complete!" zh="熔炼完成！" />
+                </div>
+                <button className="primary" onClick={onConfirm} style={{ marginTop: '1rem' }}>
+                  <span className="kbd-badge">F</span>
+                  <DualInline en="Extract Primordial Energy" zh="提取本源真气" />
+                </button>
               </div>
-              <button className="primary" onClick={onConfirm} style={{ marginTop: '1rem' }}>
-                <span className="kbd-badge">F</span>
-                <DualInline en="Extract Primordial Energy" zh="提取本源真气" />
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

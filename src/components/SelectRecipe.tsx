@@ -31,10 +31,21 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
 
       {/* Main Content */}
-      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
-        <DualText en={dict.stages.RECIPE.en} zh={dict.stages.RECIPE.zh} />
-      </h1>
-      <div className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '2.5rem', letterSpacing: '0.02em', textAlign: 'center' }}>
+      {/* Grey bar title showing current stage */}
+      <div style={{ 
+        width: '100%', 
+        backgroundColor: 'rgba(128, 128, 128, 0.8)', 
+        padding: '0.8rem 1rem', 
+        textAlign: 'center',
+        borderBottom: '2px solid var(--color-primary)',
+        marginBottom: '1rem'
+      }}>
+        <h1 className="text-gold" style={{ fontSize: '2.2rem', margin: 0 }}>
+          <DualText en={dict.stages.RECIPE.en} zh={dict.stages.RECIPE.zh} />
+        </h1>
+      </div>
+
+      <div className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '1.5rem', letterSpacing: '0.02em', textAlign: 'center' }}>
         <DualText en={dict.ui.materialScanComplete.en} zh={dict.ui.materialScanComplete.zh} />
       </div>
 
@@ -75,7 +86,7 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
                   );
                 })()}
                 </div>
-                <h3 style={{ margin: '0 0 0.5rem 0', textAlign: 'center' }}>
+                <h3 style={{ margin: '0 0 0.3rem 0', textAlign: 'center' }}>
                   <DualText en={baseEn} zh={baseZh} />
                 </h3>
                 <div className="text-magic" style={{ margin: 0, fontSize: '0.9rem', textAlign: 'center' }}>
@@ -83,13 +94,13 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
                 </div>
 
                 <div className="custom-tooltip" style={{ width: '280px' }}>
-                  <div className="text-gold" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '0.8rem', textAlign: 'center', fontWeight: 'bold' }}>
+                  <div className="text-gold" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '0.6rem', textAlign: 'center', fontWeight: 'bold' }}>
                     <DualText en={dict.ui.componentsNeeded.en} zh={dict.ui.componentsNeeded.zh} />
                   </div>
-                  <p style={{ margin: '0 0 0.3rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Matrix:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Matrix Material Requirement"]} zh={t(recipe["Matrix Material Requirement"])} /></span></p>
-                  {recipe["Source Material Requirement"] && <p style={{ margin: '0 0 0.3rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Source:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Source Material Requirement"]} zh={t(recipe["Source Material Requirement"])} /></span></p>}
-                  {recipe["Demon Core Requirement"] && <p style={{ margin: '0 0 0.3rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Demon Core:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Demon Core Requirement"]} zh={t(recipe["Demon Core Requirement"])} /></span></p>}
-                  {recipe["Spirit Essence Requirement"] && <p style={{ margin: '0 0 0.3rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Spirit Essence:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Spirit Essence Requirement"]} zh={t(recipe["Spirit Essence Requirement"])} /></span></p>}
+                  <p style={{ margin: '0 0 0.2rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Matrix:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Matrix Material Requirement"]} zh={t(recipe["Matrix Material Requirement"])} /></span></p>
+                  {recipe["Source Material Requirement"] && <p style={{ margin: '0 0 0.2rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Source:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Source Material Requirement"]} zh={t(recipe["Source Material Requirement"])} /></span></p>}
+                  {recipe["Demon Core Requirement"] && <p style={{ margin: '0 0 0.2rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Demon Core:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Demon Core Requirement"]} zh={t(recipe["Demon Core Requirement"])} /></span></p>}
+                  {recipe["Spirit Essence Requirement"] && <p style={{ margin: '0 0 0.2rem 0', display: 'flex', justifyContent: 'space-between' }}><strong>Spirit Essence:</strong> <span style={{textAlign: 'right'}}><DualInline en={recipe["Spirit Essence Requirement"]} zh={t(recipe["Spirit Essence Requirement"])} /></span></p>}
                 </div>
               </div>
             );
