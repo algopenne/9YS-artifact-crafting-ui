@@ -3,6 +3,20 @@ import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName, t } from '../i18n';
 
+const getRecipeIcon = (recipeName: string) => {
+  if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
+  if (recipeName === 'Crimson Storm Feather-Fan') return '/src/assets/recipe-crimson-storm-feather-fan.png';
+  if (recipeName === 'Scorched Shell Aegis') return '/src/assets/recipe-scorched-shell-aegis.png';
+  if (recipeName === 'Void Star Blade') return '/src/assets/recipe-void-star-blade.png';
+  
+  // Fallback emojis for any unknown recipes
+  if (recipeName.includes('Sword')) return '??';
+  if (recipeName.includes('Fan')) return '??';
+  if (recipeName.includes('Aegis') || recipeName.includes('Shield')) return '??';
+  if (recipeName.includes('Blade')) return '??';
+  return '??';
+};
+
 interface FinalTemperingProps {
   context: CraftingContext;
   onRestart: () => void;
@@ -13,7 +27,7 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
 
   return (
     <div className="flex-center" style={{ height: '100%', flexDirection: 'column', gap: '2rem', paddingBottom: '4rem' }}>
-      <h2 className="text-gold" style={{ fontSize: '3.5rem', textShadow: '0 0 20px var(--color-primary)', margin: 0, textAlign: 'center' }}>
+      <h2 className="text-gold" style={{ fontSize: '2rem', textShadow: '0 0 20px var(--color-primary)', margin: 0, textAlign: 'center' }}>
         <DualText en="Masterpiece Crafted!" zh="绝世法宝，铸造成功！" />
       </h2>
       <div className="text-magic" style={{ fontSize: '1.2rem', margin: 0, textAlign: 'center' }}>
@@ -30,8 +44,29 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
         padding: '3rem', minWidth: '500px',
         marginTop: '2rem'
       }}>
-          <div style={{ fontSize: '6rem', margin: '1rem 0', filter: 'drop-shadow(0 0 20px var(--color-primary))' }}>
-             {context.tier === 'FaBao' ? '👁️🗡️👁️' : context.tier === 'LingQi' ? '✨🗡️✨' : '🗡️'}
+          <div style={{
+                  fontSize: '2.5rem',
+                  marginBottom: '0.1rem',
+                  width: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '1rem 0',
+                  filter: 'drop-shadow(0 0 20px var(--color-primary))'
+                }}>
+             {(() => {
+               const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
+               const icon = getRecipeIcon(recipeName);
+               return icon.startsWith('/src/assets/') ? (
+                 <img 
+                   src={icon} 
+                   alt={recipeName} 
+                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                 />
+               ) : (
+                 icon
+               );
+             })()}
           </div>
           <h3 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.5rem', textAlign: 'center' }}>
             <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />

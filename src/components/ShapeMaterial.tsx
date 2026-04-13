@@ -3,6 +3,20 @@ import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName } from '../i18n';
 
+const getRecipeIcon = (recipeName: string) => {
+  if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
+  if (recipeName === 'Crimson Storm Feather-Fan') return '/src/assets/recipe-crimson-storm-feather-fan.png';
+  if (recipeName === 'Scorched Shell Aegis') return '/src/assets/recipe-scorched-shell-aegis.png';
+  if (recipeName === 'Void Star Blade') return '/src/assets/recipe-void-star-blade.png';
+  
+  // Fallback emojis for any unknown recipes
+  if (recipeName.includes('Sword')) return '??';
+  if (recipeName.includes('Fan')) return '??';
+  if (recipeName.includes('Aegis') || recipeName.includes('Shield')) return '??';
+  if (recipeName.includes('Blade')) return '??';
+  return '??';
+};
+
 interface ShapeMaterialProps {
   context: CraftingContext;
   onFinishFabing: () => void;
@@ -33,7 +47,29 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
         {stage === 1 && <div className="animate-morph" style={{ width: '150px', height: '150px', background: 'var(--color-primary-dim)', border: '2px solid var(--color-primary)' }}></div>}
         {stage === 2 && (
           <div className="animate-pulse-magic" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '6rem' }}>⭐️</div>
+            <div style={{
+                  fontSize: '3.5rem',
+                  marginBottom: '0.1rem',
+                  flex: 1,
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+              {(() => {
+                const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
+                const icon = getRecipeIcon(recipeName);
+                return icon.startsWith('/src/assets/') ? (
+                  <img 
+                    src={icon} 
+                    alt={recipeName} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  icon
+                );
+              })()}
+            </div>
             <div className="text-gold" style={{ marginTop: '1rem', fontWeight: 'bold' }}>
               <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />
             </div>

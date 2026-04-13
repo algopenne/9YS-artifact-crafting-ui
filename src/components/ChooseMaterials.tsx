@@ -4,6 +4,28 @@ import type { CraftingContext } from '../types';
 import Inventory from './Inventory';
 import { dict, DualText, DualInline, parseRecipeName, t } from '../i18n';
 
+const getMaterialIcon = (name: string) => {
+  // Specific material icons
+  if (name === 'Deep Sea Iron') return '/src/assets/material-deep-sea-iron.png';
+  if (name === 'Thunder Bamboo') return '/src/assets/material-thunder-bamboo.png';
+  if (name === 'Magma Turtle Shell') return '/src/assets/material-magma-turtle-shell.png';
+  if (name === 'Heavenly Starfall Iron') return '/src/assets/material-heavenly-starfall-iron.png';
+  if (name === 'Netherflame Crystal') return '/src/assets/material-netherflame-crystal.png';
+  if (name === 'Razoredge Obsidian') return '/src/assets/material-razoredge-obsidian.png';
+  if (name === 'Demon Heart') return '/src/assets/material-demon-heart.png';
+  if (name === 'Spirit Wolf Soul') return '/src/assets/material-spirit-wolf-soul.png';
+  
+  // Fallback emoji for other materials
+  if (name.includes('Demon') || name.includes('Heart')) return '??';
+  if (name.includes('Soul') || name.includes('Spirit')) return '??';
+  if (name.includes('Iron') || name.includes('Starfall')) return '??';
+  if (name.includes('Obsidian') || name.includes('Iron')) return '??';
+  if (name.includes('Bamboo')) return '??';
+  if (name.includes('Crystal')) return '??';
+  if (name.includes('Shell') || name.includes('Turtle')) return '??';
+  return '??';
+};
+
 interface ChooseMaterialsProps {
   context: CraftingContext;
   onConfirm: () => void;
@@ -44,7 +66,18 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
             {materials.map((m, idx) => (
               <div key={idx} className="material-thumb">
                 <div className="material-thumb-icon">
-                  {idx === 0 ? '💎' : idx === 1 ? '🌿' : idx === 2 ? '🌀' : '🔮'}
+                  {(() => {
+                    const icon = getMaterialIcon(m.name);
+                    return icon.startsWith('/src/assets/') ? (
+                      <img 
+                        src={icon} 
+                        alt={m.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      />
+                    ) : (
+                      icon
+                    );
+                  })()}
                 </div>
                 <div className="material-thumb-cost">{m.cost} SS</div>
 

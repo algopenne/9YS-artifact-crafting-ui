@@ -36,11 +36,15 @@ export const dict = {
 
   // Roots
   roots: {
-    'Physical Root': { en: 'Physical Root', zh: '体修属性' },
-    'Spiritual Root': { en: 'Spiritual Root', zh: '灵修属性' },
-    'Demonic Root': { en: 'Demonic Root', zh: '魔修属性' },
-    'Divine Root': { en: 'Divine Root', zh: '神修属性' },
-    'Neutral Root': { en: 'Neutral Root', zh: '无属性' },
+    'Physical Root': { en: 'Physical Root', zh: '体修灵根' },
+    'Spiritual Root': { en: 'Spiritual Root', zh: '灵修灵根' },
+    'Demonic Root': { en: 'Demonic Root', zh: '魔修灵根' },
+    'Divine Root': { en: 'Divine Root', zh: '神修灵根' },
+    'Neutral Root': { en: 'Neutral Root', zh: '无灵根' },
+    'Water Root': { en: 'Water Root', zh: '水灵根' },
+    'Lightning Root': { en: 'Lightning Root', zh: '雷灵根' },
+    'Fire Root': { en: 'Fire Root', zh: '火灵根' },
+    'Metal Root': { en: 'Metal Root', zh: '金灵根' },
   },
 
   materialTypes: {

@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
-import { dict, DualText, DualInline } from '../i18n';
+import { dict, DualText, DualInline, parseRecipeName } from '../i18n';
+
+const getRecipeIcon = (recipeName: string) => {
+  if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
+  if (recipeName === 'Crimson Storm Feather-Fan') return '/src/assets/recipe-crimson-storm-feather-fan.png';
+  if (recipeName === 'Scorched Shell Aegis') return '/src/assets/recipe-scorched-shell-aegis.png';
+  if (recipeName === 'Void Star Blade') return '/src/assets/recipe-void-star-blade.png';
+  
+  // Fallback emojis for any unknown recipes
+  if (recipeName.includes('Sword')) return '??';
+  if (recipeName.includes('Fan')) return '??';
+  if (recipeName.includes('Aegis') || recipeName.includes('Shield')) return '??';
+  if (recipeName.includes('Blade')) return '??';
+  return '??';
+};
 
 interface SpiritEssenceProps {
   context: CraftingContext;
@@ -46,7 +60,21 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
         </div>
       ) : (
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '6rem', textShadow: '0 0 40px var(--color-tier-4)', marginBottom: '1rem' }}>👁️🗡️👁️</div>
+          <div style={{ fontSize: '6rem', textShadow: '0 0 40px var(--color-tier-4)', marginBottom: '1rem' }}>
+            {(() => {
+              const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
+              const icon = getRecipeIcon(recipeName);
+              return icon.startsWith('/src/assets/') ? (
+                <img 
+                  src={icon} 
+                  alt={recipeName} 
+                  style={{ width: '6rem', height: '6rem' }}
+                />
+              ) : (
+                icon
+              );
+            })()}
+          </div>
           <h3 style={{ fontSize: '2rem', marginBottom: '2rem', color: 'var(--color-tier-4)', letterSpacing: '0.06em' }}>
             <DualText en="FaBao Awakened!" zh="法宝已苏醒！" />
           </h3>

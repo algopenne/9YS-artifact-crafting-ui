@@ -1,7 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
-import { dict, DualText, DualInline, t } from '../i18n';
+import { dict, DualText, DualInline, t, parseRecipeName } from '../i18n';
+
+const getRecipeIcon = (recipeName: string) => {
+  if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
+  if (recipeName === 'Crimson Storm Feather-Fan') return '/src/assets/recipe-crimson-storm-feather-fan.png';
+  if (recipeName === 'Scorched Shell Aegis') return '/src/assets/recipe-scorched-shell-aegis.png';
+  if (recipeName === 'Void Star Blade') return '/src/assets/recipe-void-star-blade.png';
+  
+  // Fallback emojis for any unknown recipes
+  if (recipeName.includes('Sword')) return '??';
+  if (recipeName.includes('Fan')) return '??';
+  if (recipeName.includes('Aegis') || recipeName.includes('Shield')) return '??';
+  if (recipeName.includes('Blade')) return '??';
+  return '??';
+};
 
 interface HarmonizationProps {
   context: CraftingContext;
@@ -134,12 +148,36 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
             gap: '0.6rem',
             boxShadow: '0 0 40px rgba(0,255,200,0.06)'
           }}>
-            <div style={{ fontSize: '4rem', filter: 'drop-shadow(0 0 12px var(--color-magic))' }}>⚗️</div>
+            <div style={{
+                  fontSize: '3.5rem',
+                  marginBottom: '0.1rem',
+                  flex: 1,
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  filter: 'drop-shadow(0 0 12px var(--color-magic))'
+                }}>
+              {(() => {
+                const recipe = data.Recipes[context.recipeIndex || 0];
+                const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
+                const icon = getRecipeIcon(recipeName);
+                return icon.startsWith('/src/assets/') ? (
+                  <img 
+                    src={icon} 
+                    alt={recipeName} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  icon
+                );
+              })()}
+            </div>
             <div className="text-dim" style={{ fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               <DualInline en="Artifact" zh="法宝" />
             </div>
             <div style={{ display: 'flex', gap: '0.4rem' }}>
-              {[0,1,2].map(i => (
+              {[0, 1, 2].map(i => (
                 <div key={i} style={{
                   width: '8px', height: '8px', borderRadius: '50%',
                   background: results[i] !== null ? 'var(--color-magic)' : 'rgba(255,255,255,0.15)',
@@ -287,7 +325,7 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '2.8rem', marginBottom: '0.5rem', textAlign: 'center' }}>
-        <DualText en="Purification Complete" zh="净化完成" />
+        <DualText en="Harmonization Complete" zh="修复完成" />
       </h1>
       <div className="text-magic" style={{ marginBottom: '2rem', textAlign: 'center' }}>
         <DualText en="The artifact matrix has reached a state of perfect resonance." zh="法宝基质已达到完美共鸣的境界。" />

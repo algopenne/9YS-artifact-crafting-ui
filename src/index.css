@@ -211,10 +211,10 @@ button.danger:hover {
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
   user-select: none;
-  min-height: 130px;
+  min-height: 180px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .selectable-card:hover {

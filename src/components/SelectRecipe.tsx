@@ -7,7 +7,20 @@ interface SelectRecipeProps {
   onSelect: (index: number) => void;
 }
 
-const icons = ['🌊🗡️', '🌪️🪭', '🔥🛡️', '🌌🗡️'];
+const getRecipeIcon = (recipeName: string) => {
+  if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
+  if (recipeName === 'Crimson Storm Feather-Fan') return '/src/assets/recipe-crimson-storm-feather-fan.png';
+  if (recipeName === 'Scorched Shell Aegis') return '/src/assets/recipe-scorched-shell-aegis.png';
+  if (recipeName === 'Void Star Blade') return '/src/assets/recipe-void-star-blade.png';
+  
+  // Fallback emojis for any unknown recipes
+  if (recipeName.includes('Sword')) return '🗡️';
+  if (recipeName.includes('Fan')) return '🪭';
+  if (recipeName.includes('Aegis') || recipeName.includes('Shield')) return '️';
+  if (recipeName.includes('Blade')) return '🗡️';
+  return '🌊';
+
+};
 
 export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
@@ -41,14 +54,26 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
                 style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
                 <div style={{
-                  fontSize: '3.5rem',
-                  marginBottom: '1rem',
-                  height: '80px',
+                  fontSize: '3rem',
+                  marginBottom: '0.1rem',
+                  flex: 1,
+                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  {icons[idx]}
+                  {(() => {
+                  const icon = getRecipeIcon(baseEn);
+                  return icon.startsWith('/src/assets/') ? (
+                    <img 
+                      src={icon} 
+                      alt={baseEn} 
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                  ) : (
+                    icon
+                  );
+                })()}
                 </div>
                 <h3 style={{ margin: '0 0 0.5rem 0', textAlign: 'center' }}>
                   <DualText en={baseEn} zh={baseZh} />

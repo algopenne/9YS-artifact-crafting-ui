@@ -7,7 +7,18 @@ interface InventoryProps {
   highlightedRecipe: any | null;
 }
 
-const getEmojiForMaterial = (name: string) => {
+const getMaterialIcon = (name: string) => {
+  // Specific material icons
+  if (name === 'Deep Sea Iron') return '/src/assets/material-deep-sea-iron.png';
+  if (name === 'Thunder Bamboo') return '/src/assets/material-thunder-bamboo.png';
+  if (name === 'Magma Turtle Shell') return '/src/assets/material-magma-turtle-shell.png';
+  if (name === 'Heavenly Starfall Iron') return '/src/assets/material-heavenly-starfall-iron.png';
+  if (name === 'Netherflame Crystal') return '/src/assets/material-netherflame-crystal.png';
+  if (name === 'Razoredge Obsidian') return '/src/assets/material-razoredge-obsidian.png';
+  if (name === 'Demon Heart') return '/src/assets/material-demon-heart.png';
+  if (name === 'Spirit Wolf Soul') return '/src/assets/material-spirit-wolf-soul.png';
+  
+  // Fallback emoji for other materials
   if (name.includes('Demon') || name.includes('Heart')) return '🫀';
   if (name.includes('Soul') || name.includes('Spirit')) return '👻';
   if (name.includes('Iron') || name.includes('Starfall')) return '☄️';
@@ -92,7 +103,20 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
               position: 'relative',
               borderRadius: '0',
             }}>
-              <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{getEmojiForMaterial(mat)}</div>
+              <div style={{ fontSize: '1.5rem', lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                {(() => {
+                  const icon = getMaterialIcon(mat);
+                  return icon.startsWith('/src/assets/') ? (
+                    <img 
+                      src={icon} 
+                      alt={mat} 
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                  ) : (
+                    icon
+                  );
+                })()}
+              </div>
               {/* Stack count badge — bottom-right corner */}
               <div style={{
                 position: 'absolute',
