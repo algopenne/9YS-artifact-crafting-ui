@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
+import LootboxReveal from './LootboxReveal';
 
 const getRecipeIcon = (recipeName: string) => {
   if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
@@ -46,6 +48,8 @@ interface SpiritEssenceProps {
 
 export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps) {
   const [injected, setInjected] = useState(false);
+  const [infuseTrigger, setInfuseTrigger] = useState(false);
+  const [proceedTrigger, setProceedTrigger] = useState(false);
   const recipe = data.Recipes[context.recipeIndex || 0];
   const essenceRequirement = recipe["Spirit Essence Requirement"];
 
@@ -63,7 +67,7 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
           <div className="panel" style={{ width: '400px', marginBottom: '2rem', border: '1px solid var(--color-tier-4)', boxShadow: '0 0 20px hsla(270, 55%, 62%, 0.15)', borderLeft: '3px solid var(--color-tier-4)' }}>
             <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
               {(() => {
-                const icon = getMaterialIcon(essenceRequirement);
+                const icon = getMaterialIcon(essenceRequirement || '');
                 return icon.startsWith('/src/assets/') ? (
                   <img 
                     src={icon} 
@@ -81,17 +85,19 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
             </div>
           </div>
 
-          <button onClick={() => setInjected(true)} style={{ 
-            padding: '0.6rem 2.5rem', fontSize: '1rem',
-            backgroundColor: 'hsla(270, 40%, 15%, 0.8)',
-            color: 'var(--color-tier-4)',
-            border: '1px solid var(--color-tier-4)',
-            display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto'
-          }}>
-            <span className="kbd-badge">F</span>
-            <DualInline en="Infuse Spirit Essence" zh="注入精魂" />
-          </button>
+          <ButtonExplosionEffect trigger={infuseTrigger} type="purple" cornerExplosion={true}>
+            <button onClick={() => { setInfuseTrigger(true); setTimeout(() => setInfuseTrigger(false), 300); setInjected(true); }} style={{ 
+              padding: '0.6rem 2.5rem', fontSize: '1rem',
+              backgroundColor: 'hsla(270, 40%, 15%, 0.8)',
+              color: 'var(--color-tier-4)',
+              border: '1px solid var(--color-tier-4)',
+              display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto'
+            }}>
+              <span className="kbd-badge">F</span>
+              <DualInline en="Infuse Spirit Essence" zh="注入精魂" />
+            </button>
+          </ButtonExplosionEffect>
         </div>
       ) : (
         <div style={{ textAlign: 'center' }}>
@@ -103,15 +109,16 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
             width: '300px',
             margin: '0 auto 1rem auto'
           }}>
-            <div style={{
-              fontSize: '3rem',
-              marginBottom: '0.1rem',
-              flex: 1,
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
+            <LootboxReveal delay={0}>
+              <div style={{
+                fontSize: '3rem',
+                marginBottom: '0.1rem',
+                flex: 1,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
               {(() => {
                 const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
                 const icon = getRecipeIcon(recipeName);
@@ -125,7 +132,8 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
                   icon
                 );
               })()}
-            </div>
+              </div>
+            </LootboxReveal>
             <h3 style={{ margin: '0 0 0.5rem 0', textAlign: 'center' }}>
               <DualText en={parseRecipeName(recipe["__EMPTY"] || "").baseEn} zh={parseRecipeName(recipe["__EMPTY"] || "").baseZh} />
             </h3>
@@ -140,10 +148,12 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
             <DualText en="The weapon opens its inner eyes. It recognizes you as its master." zh="武器睁开了意识之眼。它已认你为主。" />
           </div>
 
-          <button className="primary" onClick={onConfirm} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
-            <span className="kbd-badge">F</span>
-            <DualInline en="Proceed to Harmonization" zh="前往修复阶段" />
-          </button>
+          <ButtonExplosionEffect trigger={proceedTrigger} type="gold">
+            <button className="primary" onClick={() => { setProceedTrigger(true); setTimeout(() => setProceedTrigger(false), 100); onConfirm(); }} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+              <span className="kbd-badge">F</span>
+              <DualInline en="Proceed to Harmonization" zh="前往修复阶段" />
+            </button>
+          </ButtonExplosionEffect>
         </div>
       )}
     </div>

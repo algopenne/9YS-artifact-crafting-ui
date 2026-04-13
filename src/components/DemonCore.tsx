@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
+import LootboxReveal from './LootboxReveal';
 
 const getRecipeIcon = (recipeName: string) => {
   if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
@@ -47,10 +49,15 @@ interface DemonCoreProps {
 
 export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: DemonCoreProps) {
   const [injected, setInjected] = useState(false);
+  const [fuseTrigger, setFuseTrigger] = useState(false);
+  const [completeTrigger, setCompleteTrigger] = useState(false);
+  const [elevateTrigger, setElevateTrigger] = useState(false);
   const recipe = data.Recipes[context.recipeIndex || 0];
   const coreRequirement = recipe["Demon Core Requirement"];
 
   const handleInject = () => {
+    setFuseTrigger(true);
+    setTimeout(() => setFuseTrigger(false), 300);
     setInjected(true);
   };
 
@@ -68,7 +75,7 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
           <div className="panel" style={{ width: '400px', marginBottom: '2rem' }}>
             <div style={{ fontSize: '4rem', marginBottom: '1rem', color: 'var(--color-fire-root)' }}>
               {(() => {
-                const icon = getMaterialIcon(coreRequirement);
+                const icon = getMaterialIcon(coreRequirement || '');
                 return icon.startsWith('/src/assets/') ? (
                   <img 
                     src={icon} 
@@ -84,10 +91,12 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
             <p className="text-dim" style={{ fontSize: '0.9rem' }}>Contains the fierce residual will of a profound demon.</p>
           </div>
 
-          <button className="danger" onClick={handleInject} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
-            <span className="kbd-badge">F</span>
-            <DualInline en="Fuse Demon Core" zh="融合妖丹" />
-          </button>
+          <ButtonExplosionEffect trigger={fuseTrigger} type="red" cornerExplosion={true}>
+            <button className="danger" onClick={handleInject} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
+              <span className="kbd-badge">F</span>
+              <DualInline en="Fuse Demon Core" zh="融合妖丹" />
+            </button>
+          </ButtonExplosionEffect>
         </div>
       ) : (
         <div style={{ textAlign: 'center' }}>
@@ -99,15 +108,16 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
             width: '300px',
             margin: '0 auto 1rem auto'
           }}>
-            <div style={{
-              fontSize: '3rem',
-              marginBottom: '0.1rem',
-              flex: 1,
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
+            <LootboxReveal delay={0}>
+              <div style={{
+                fontSize: '3rem',
+                marginBottom: '0.1rem',
+                flex: 1,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
               {(() => {
                 const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
                 const icon = getRecipeIcon(recipeName);
@@ -121,7 +131,8 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
                   icon
                 );
               })()}
-            </div>
+              </div>
+            </LootboxReveal>
             <h3 style={{ margin: '0 0 0.5rem 0', textAlign: 'center' }}>
               <DualText en={parseRecipeName(recipe["__EMPTY"] || "").baseEn} zh={parseRecipeName(recipe["__EMPTY"] || "").baseZh} />
             </h3>
@@ -137,15 +148,19 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
           </div>
 
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
-            <button className="primary" onClick={onFinishLingQi} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              <span className="kbd-badge">F</span>
-              <DualInline en="Complete Crafting (Ling Qi)" zh="完成炼制 (灵器)" />
-            </button>
-            {recipe["Spirit Essence Requirement"] && (
-              <button onClick={onProceedFaBao} style={{ border: '1px solid var(--color-tier-4)', color: 'var(--color-tier-4)', background: 'hsla(270, 40%, 10%, 0.5)', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <span className="kbd-badge">E</span>
-                <DualInline en="Elevate to FaBao (Inject Spirit Essence)" zh="升华至法宝 (注入精魂)" />
+            <ButtonExplosionEffect trigger={completeTrigger} type="gold">
+              <button className="primary" onClick={() => { setCompleteTrigger(true); setTimeout(() => setCompleteTrigger(false), 100); onFinishLingQi(); }} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <span className="kbd-badge">F</span>
+                <DualInline en="Complete Crafting (Ling Qi)" zh="完成炼制 (灵器)" />
               </button>
+            </ButtonExplosionEffect>
+            {recipe["Spirit Essence Requirement"] && (
+              <ButtonExplosionEffect trigger={elevateTrigger} type="purple">
+                <button onClick={() => { setElevateTrigger(true); setTimeout(() => setElevateTrigger(false), 100); onProceedFaBao(); }} style={{ border: '1px solid var(--color-tier-4)', color: 'var(--color-tier-4)', background: 'hsla(270, 40%, 10%, 0.5)', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <span className="kbd-badge">E</span>
+                  <DualInline en="Elevate to FaBao (Inject Spirit Essence)" zh="升华至法宝 (注入精魂)" />
+                </button>
+              </ButtonExplosionEffect>
             )}
           </div>
         </div>

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { dict, DualText, DualInline } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
 
 interface RuneInscriptionProps {
   onConfirm: () => void;
 }
 
 export default function RuneInscription({ onConfirm }: RuneInscriptionProps) {
+  const [finishTrigger, setFinishTrigger] = useState(false);
+
   return (
     <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
@@ -23,10 +26,12 @@ export default function RuneInscription({ onConfirm }: RuneInscriptionProps) {
           </div>
         </div>
 
-        <button className="primary" onClick={onConfirm} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
-          <span className="kbd-badge">F</span>
-          <DualInline en={dict.ui.finishInscription.en} zh={dict.ui.finishInscription.zh} />
-        </button>
+        <ButtonExplosionEffect trigger={finishTrigger} type="gold">
+          <button className="primary" onClick={() => { setFinishTrigger(true); setTimeout(() => setFinishTrigger(false), 100); onConfirm(); }} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+            <span className="kbd-badge">F</span>
+            <DualInline en={dict.ui.finishInscription.en} zh={dict.ui.finishInscription.zh} />
+          </button>
+        </ButtonExplosionEffect>
       </div>
     </div>
   );

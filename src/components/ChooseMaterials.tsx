@@ -67,7 +67,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
               <div key={idx} className="material-thumb">
                 <div className="material-thumb-icon">
                   {(() => {
-                    const icon = getMaterialIcon(m.name);
+                    const icon = getMaterialIcon(m.name || '');
                     return icon.startsWith('/src/assets/') ? (
                       <img 
                         src={icon} 
@@ -87,7 +87,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
                     <DualInline en={(dict.materialTypes as any)[m.type]?.en || m.type} zh={(dict.materialTypes as any)[m.type]?.zh || ''} />
                   </div>
                   <div style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: 'var(--color-gold)' }}>
-                    <DualInline en={m.name} zh={t(m.name)} />
+                    <DualInline en={m.name || ''} zh={t(m.name || '')} />
                   </div>
                   <div className="text-dim" style={{ fontSize: '0.8rem' }}>Root: <DualInline en={(dict.roots as any)[m.root + ' Root']?.en || m.root} zh={(dict.roots as any)[m.root + ' Root']?.zh || ''} /></div>
                 </div>

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, t, parseRecipeName } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
+import LootboxReveal from './LootboxReveal';
 
 const getRecipeIcon = (recipeName: string) => {
   if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
@@ -50,6 +52,9 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
   const [results, setResults] = useState<(NodeResult | null)[]>([null, null, null]);
   const [activeNode, setActiveNode] = useState<number | null>(null);
   const [phase, setPhase] = useState<Phase>('hub');
+  const [nodeTriggers, setNodeTriggers] = useState([false, false, false]);
+  const [cardTriggers, setCardTriggers] = useState<number[]>([]);
+  const [concludeTrigger, setConcludeTrigger] = useState(false);
 
   const generateCardsForFlaw = useCallback((flawInst: FlawInstance) => {
     const shuffled = [...flawInst.options].sort(() => 0.5 - Math.random());
@@ -78,6 +83,14 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
   const handleNodeClick = (nodeIdx: number) => {
     if (results[nodeIdx] !== null) return; // already done
     if (flaws.length === 0) return;
+    const newTriggers = [...nodeTriggers];
+    newTriggers[nodeIdx] = true;
+    setNodeTriggers(newTriggers);
+    setTimeout(() => {
+      const resetTriggers = [...nodeTriggers];
+      resetTriggers[nodeIdx] = false;
+      setNodeTriggers(resetTriggers);
+    }, 100);
     generateCardsForFlaw(flaws[nodeIdx]);
     setActiveNode(nodeIdx);
     setPhase('minigame');
@@ -87,6 +100,8 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
     if (activeNode === null) return;
     const card = cards[cardIdx];
     const statName = card.stat;
+    setCardTriggers([...cardTriggers, cardIdx]);
+    setTimeout(() => setCardTriggers(cardTriggers.filter(c => c !== cardIdx)), 100);
 
     const newStats = { ...context.stats };
     newStats[statName] = (newStats[statName] || 100) + card.buff;
@@ -148,16 +163,17 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
             gap: '0.6rem',
             boxShadow: '0 0 40px rgba(0,255,200,0.06)'
           }}>
-            <div style={{
-                  fontSize: '3.5rem',
-                  marginBottom: '0.1rem',
-                  flex: 1,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  filter: 'drop-shadow(0 0 12px var(--color-magic))'
-                }}>
+            <LootboxReveal delay={0}>
+              <div style={{
+                    fontSize: '3.5rem',
+                    marginBottom: '0.1rem',
+                    flex: 1,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    filter: 'drop-shadow(0 0 12px var(--color-magic))'
+                  }}>
               {(() => {
                 const recipe = data.Recipes[context.recipeIndex || 0];
                 const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
@@ -172,7 +188,8 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
                   icon
                 );
               })()}
-            </div>
+              </div>
+            </LootboxReveal>
             <div className="text-dim" style={{ fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               <DualInline en="Artifact" zh="法宝" />
             </div>
@@ -197,27 +214,27 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
               const done = results[i] !== null;
               const res = results[i];
               return (
-                <div
-                  key={cat}
-                  className={`selectable-card ${done ? '' : 'hoverable'}`}
-                  onClick={() => !done && handleNodeClick(i)}
-                  style={{
-                    cursor: done ? 'default' : 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '1.5rem 1rem',
-                    border: done
-                      ? '1px solid rgba(0,255,200,0.4)'
-                      : `1px solid ${NODE_COLORS[i]}55`,
-                    background: done
-                      ? 'rgba(0,255,200,0.05)'
-                      : `${NODE_COLORS[i]}0d`,
-                    position: 'relative',
-                    opacity: done ? 0.85 : 1,
-                    transition: 'all 0.2s'
-                  }}
-                >
+                <ButtonExplosionEffect key={cat} trigger={nodeTriggers[i]} type="cyan">
+                  <div
+                    className={`selectable-card ${done ? '' : 'hoverable'}`}
+                    onClick={() => !done && handleNodeClick(i)}
+                    style={{
+                      cursor: done ? 'default' : 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      padding: '1.5rem 1rem',
+                      border: done
+                        ? '1px solid rgba(0,255,200,0.4)'
+                        : `1px solid ${NODE_COLORS[i]}55`,
+                      background: done
+                        ? 'rgba(0,255,200,0.05)'
+                        : `${NODE_COLORS[i]}0d`,
+                      position: 'relative',
+                      opacity: done ? 0.85 : 1,
+                      transition: 'all 0.2s'
+                    }}
+                  >
                   {/* Done badge */}
                   {done && <div style={{
                     position: 'absolute', top: '0.5rem', right: '0.6rem',
@@ -249,6 +266,7 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
                     </div>
                   )}
                 </div>
+                </ButtonExplosionEffect>
               );
             })}
           </div>
@@ -291,23 +309,25 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
 
         <div className="item-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', width: '100%', maxWidth: '900px' }}>
           {cards.map((card, idx) => (
-            <div key={idx} className="card-draw" onClick={() => handleCardSelect(idx)}>
-              <h4 style={{ color: 'var(--color-magic)', fontSize: '1.4rem', marginBottom: '0.8rem', lineHeight: 1 }}>
-                {NODE_ICONS[activeNode!]}
-              </h4>
-              <div style={{ marginBottom: '0.8rem', color: 'var(--color-primary)', fontSize: '1rem', letterSpacing: '0.03em', lineHeight: 1.3, fontWeight: 'bold' }}>
-                <DualText en={card.resolution} zh={t(card.resolution)} />
+            <ButtonExplosionEffect key={idx} trigger={cardTriggers.includes(idx)} type="cyan">
+              <div className="card-draw" onClick={() => handleCardSelect(idx)}>
+                <h4 style={{ color: 'var(--color-magic)', fontSize: '1.4rem', marginBottom: '0.8rem', lineHeight: 1 }}>
+                  {NODE_ICONS[activeNode!]}
+                </h4>
+                <div style={{ marginBottom: '0.8rem', color: 'var(--color-primary)', fontSize: '1rem', letterSpacing: '0.03em', lineHeight: 1.3, fontWeight: 'bold' }}>
+                  <DualText en={card.resolution} zh={t(card.resolution)} />
+                </div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-dim)', marginBottom: '0.4rem' }}>
+                  <DualInline en="Increases" zh="提升" />
+                </div>
+                <div style={{ fontSize: '0.95rem', color: 'var(--color-text)', marginBottom: '0.6rem', fontWeight: 600 }}>
+                  <DualInline en={card.stat} zh={t(card.stat)} />
+                </div>
+                <div style={{ fontSize: '1.6rem', color: 'var(--color-gold)', fontWeight: 'bold' }}>
+                  +{card.buff}%
+                </div>
               </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-dim)', marginBottom: '0.4rem' }}>
-                <DualInline en="Increases" zh="提升" />
-              </div>
-              <div style={{ fontSize: '0.95rem', color: 'var(--color-text)', marginBottom: '0.6rem', fontWeight: 600 }}>
-                <DualInline en={card.stat} zh={t(card.stat)} />
-              </div>
-              <div style={{ fontSize: '1.6rem', color: 'var(--color-gold)', fontWeight: 'bold' }}>
-                +{card.buff}%
-              </div>
-            </div>
+            </ButtonExplosionEffect>
           ))}
         </div>
 
@@ -358,14 +378,16 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
         ))}
       </div>
 
-      <button
-        className="primary"
-        onClick={onConfirm}
-        style={{ padding: '0.6rem 4rem', fontSize: '1.1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}
-      >
-        <span className="kbd-badge">F</span>
-        <DualInline en="Conclude Harmonization" zh="结束修复" />
-      </button>
+      <ButtonExplosionEffect trigger={concludeTrigger} type="gold">
+        <button
+          className="primary"
+          onClick={() => { setConcludeTrigger(true); setTimeout(() => setConcludeTrigger(false), 100); onConfirm(); }}
+          style={{ padding: '0.6rem 4rem', fontSize: '1.1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}
+        >
+          <span className="kbd-badge">F</span>
+          <DualInline en="Conclude Harmonization" zh="结束修复" />
+        </button>
+      </ButtonExplosionEffect>
     </div>
   );
 }

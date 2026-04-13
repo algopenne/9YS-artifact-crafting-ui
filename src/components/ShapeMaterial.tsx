@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
+import LootboxReveal from './LootboxReveal';
 
 const getRecipeIcon = (recipeName: string) => {
   if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
@@ -25,6 +27,8 @@ interface ShapeMaterialProps {
 
 export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi }: ShapeMaterialProps) {
   const [stage, setStage] = useState(0);
+  const [completeTrigger, setCompleteTrigger] = useState(false);
+  const [elevateTrigger, setElevateTrigger] = useState(false);
   const recipe = data.Recipes[context.recipeIndex || 0];
 
   useEffect(() => {
@@ -47,15 +51,16 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
         {stage === 1 && <div className="animate-morph" style={{ width: '150px', height: '150px', background: 'var(--color-primary-dim)', border: '2px solid var(--color-primary)' }}></div>}
         {stage === 2 && (
           <div className="animate-pulse-magic" style={{ textAlign: 'center' }}>
-            <div style={{
-                  fontSize: '3.5rem',
-                  marginBottom: '0.1rem',
-                  flex: 1,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
+            <LootboxReveal delay={0}>
+              <div style={{
+                    fontSize: '3.5rem',
+                    marginBottom: '0.1rem',
+                    flex: 1,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
               {(() => {
                 const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
                 const icon = getRecipeIcon(recipeName);
@@ -70,6 +75,7 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
                 );
               })()}
             </div>
+            </LootboxReveal>
             <div className="text-gold" style={{ marginTop: '1rem', fontWeight: 'bold' }}>
               <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />
             </div>
@@ -78,13 +84,17 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
       </div>
 
       <div style={{ opacity: stage === 2 ? 1 : 0, transition: 'opacity 1s ease', display: 'flex', gap: '2rem' }}>
-        <button className="primary" onClick={onFinishFabing}>
-          <DualInline en="Complete Crafting (FaBing)" zh="完成炼制 (法兵)" />
-        </button>
-        {recipe["Demon Core Requirement"] && (
-          <button className="danger" onClick={onProceedLingQi} style={{ border: '1px solid var(--color-magic)', color: 'var(--color-magic)' }}>
-            <DualInline en="Elevate to Ling Qi (Inject Demon Core)" zh="升华至灵器 (注入妖丹)" />
+        <ButtonExplosionEffect trigger={completeTrigger} type="gold">
+          <button className="primary" onClick={() => { setCompleteTrigger(true); setTimeout(() => setCompleteTrigger(false), 100); onFinishFabing(); }}>
+            <DualInline en="Complete Crafting (FaBing)" zh="完成炼制 (法兵)" />
           </button>
+        </ButtonExplosionEffect>
+        {recipe["Demon Core Requirement"] && (
+          <ButtonExplosionEffect trigger={elevateTrigger} type="red">
+            <button className="danger" onClick={() => { setElevateTrigger(true); setTimeout(() => setElevateTrigger(false), 100); onProceedLingQi(); }} style={{ border: '1px solid var(--color-magic)', color: 'var(--color-magic)' }}>
+              <DualInline en="Elevate to Ling Qi (Inject Demon Core)" zh="升华至灵器 (注入妖丹)" />
+            </button>
+          </ButtonExplosionEffect>
         )}
       </div>
     </div>

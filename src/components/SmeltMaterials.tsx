@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { CraftingContext } from "../types";
 import { dict, DualText, DualInline } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
 
 const getFlameIcon = (flameName: string) => {
   if (flameName === 'Earth Vein Primordial Flame') return '/src/assets/flame-earth-vein-primordial.png';
@@ -38,6 +39,8 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
   const [isSmelting, setIsSmelting] = useState(false);
   const [invested, setInvested] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
+  const [igniteTrigger, setIgniteTrigger] = useState(false);
+  const [extractTrigger, setExtractTrigger] = useState(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -52,7 +55,11 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
   }, [isSmelting, progress, invested]);
 
   const handleStart = () => {
-    if (selectedFire !== null) setIsSmelting(true);
+    if (selectedFire !== null) {
+      setIgniteTrigger(true);
+      setTimeout(() => setIgniteTrigger(false), 100);
+      setIsSmelting(true);
+    }
   };
 
   const handleInvest = () => {
@@ -153,10 +160,12 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
             })}
           </div>
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-            <button className="primary" onClick={handleStart} disabled={selectedFire === null}>
-              <span className="kbd-badge">Space</span>
-              <DualInline en="Ignite Furnace" zh="点燃丹炉" />
-            </button>
+            <ButtonExplosionEffect trigger={igniteTrigger} type="orange">
+              <button className="primary" onClick={handleStart} disabled={selectedFire === null}>
+                <span className="kbd-badge">Space</span>
+                <DualInline en="Ignite Furnace" zh="点燃丹炉" />
+              </button>
+            </ButtonExplosionEffect>
           </div>
         </div>
       ) : (
@@ -204,10 +213,12 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
                 <div className="text-magic" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
                   <DualText en="Smelting Complete!" zh="熔炼完成！" />
                 </div>
-                <button className="primary" onClick={onConfirm} style={{ marginTop: '1rem' }}>
-                  <span className="kbd-badge">F</span>
-                  <DualInline en="Extract Primordial Energy" zh="提取本源真气" />
-                </button>
+                <ButtonExplosionEffect trigger={extractTrigger} type="gold">
+                  <button className="primary" onClick={() => { setExtractTrigger(true); setTimeout(() => setExtractTrigger(false), 100); onConfirm(); }} style={{ marginTop: '1rem' }}>
+                    <span className="kbd-badge">F</span>
+                    <DualInline en="Extract Primordial Energy" zh="提取本源真气" />
+                  </button>
+                </ButtonExplosionEffect>
               </div>
             )}
           </div>

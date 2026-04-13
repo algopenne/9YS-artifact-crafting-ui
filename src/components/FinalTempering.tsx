@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { CraftingContext } from "../types";
 import data from '../data.json';
 import { dict, DualText, DualInline, parseRecipeName, t } from '../i18n';
+import ButtonExplosionEffect from './ButtonExplosionEffect';
+import LootboxReveal from './LootboxReveal';
 
 const getRecipeIcon = (recipeName: string) => {
   if (recipeName === 'Tide-Severing Sword') return '/src/assets/recipe-tide-severing-sword.png';
@@ -23,10 +25,60 @@ interface FinalTemperingProps {
 }
 
 export default function FinalTempering({ context, onRestart }: FinalTemperingProps) {
+  const [restartTrigger, setRestartTrigger] = useState(false);
   const recipe = data.Recipes[context.recipeIndex || 0];
+
+  useEffect(() => {
+    // Trigger loot box effect when component mounts
+    setTimeout(() => {
+      setRestartTrigger(true);
+      setTimeout(() => setRestartTrigger(false), 100);
+    }, 500);
+  }, []);
+
+  const [backgroundTrigger, setBackgroundTrigger] = useState(false);
+  const [cornerCircles, setCornerCircles] = useState<{ id: number; tx: string; ty: string; size: string }[]>([]);
+  useEffect(() => {
+    setTimeout(() => setBackgroundTrigger(true), 100);
+  }, []);
+
+  useEffect(() => {
+    if (backgroundTrigger) {
+      const newCircles = Array.from({ length: 20 }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 300;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        const size = 20 + Math.random() * 30;
+        return {
+          id: Math.random(),
+          tx: `${tx}px`,
+          ty: `${ty}px`,
+          size: `${size}px`
+        };
+      });
+      setCornerCircles(newCircles);
+      setTimeout(() => setCornerCircles([]), 800);
+    }
+  }, [backgroundTrigger]);
 
   return (
     <div className="wuxia-screen-enter flex-center" style={{ height: '100%', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
+      {backgroundTrigger && <div className="background-light-burst"></div>}
+      {cornerCircles.map(c => (
+        <div
+          key={c.id}
+          className="corner-circle"
+          style={{
+            top: '50%',
+            left: '50%',
+            '--tx': c.tx,
+            '--ty': c.ty,
+            '--size': c.size,
+            '--circle-color': 'var(--color-primary)'
+          } as any}
+        />
+      ))}
       <h2 className="text-gold" style={{ fontSize: '2rem', textShadow: '0 0 20px var(--color-primary)', margin: 0, textAlign: 'center' }}>
         <DualText en="Masterpiece Crafted!" zh="绝世法宝，铸造成功！" />
       </h2>
@@ -44,15 +96,17 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
         padding: '2rem', minWidth: '500px',
         marginTop: '1rem'
       }}>
-          <div style={{
-                  fontSize: '2.5rem',
-                  marginBottom: '0.5rem',
-                  width: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  filter: 'drop-shadow(0 0 20px var(--color-primary))'
-                }}>
+          <LootboxReveal delay={0}>
+            <div style={{
+                    fontSize: '2.5rem',
+                    marginBottom: '0.5rem',
+                    width: '120px',
+                    height: '120px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    filter: 'drop-shadow(0 0 20px var(--color-primary))'
+                  }}>
              {(() => {
                const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
                const icon = getRecipeIcon(recipeName);
@@ -66,7 +120,8 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
                  icon
                );
              })()}
-          </div>
+            </div>
+          </LootboxReveal>
           <h3 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.3rem', textAlign: 'center' }}>
             <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />
           </h3>
@@ -114,10 +169,12 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
              )}
           </div>
 
-        <button className="primary" onClick={onRestart} style={{ fontSize: '1.1rem', padding: '0.6rem 2rem', marginTop: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
-          <span className="kbd-badge">R</span>
-          <DualInline en="Start New Artifact" zh="炼制新法宝" />
-        </button>
+        <ButtonExplosionEffect trigger={restartTrigger} type="gold">
+          <button className="primary" onClick={() => { setRestartTrigger(true); setTimeout(() => setRestartTrigger(false), 100); onRestart(); }} style={{ fontSize: '1.1rem', padding: '0.6rem 2rem', marginTop: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+            <span className="kbd-badge">R</span>
+            <DualInline en="Start New Artifact" zh="炼制新法宝" />
+          </button>
+        </ButtonExplosionEffect>
       </div>
     </div>
   );
