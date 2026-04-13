@@ -25,13 +25,13 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Gather Materials</h1>
-      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>Confirm the required ingredients to begin.</p>
-      
+      <h1 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>Gather Materials</h1>
+      <p className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Confirm the required ingredients to begin.</p>
+
       {/* Unified Centered Constraint Wrapper */}
       <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div className="panel" style={{ width: '100%', marginBottom: '2rem' }}>
-          <h3 className="text-gold" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem', textAlign: 'center' }}>
+        <div className="panel" style={{ width: '100%', marginBottom: '1rem', padding: '1.2rem 1.5rem' }}>
+          <h3 className="text-gold" style={{ marginBottom: '1rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem', textAlign: 'center' }}>
             {recipe["__EMPTY"]}
           </h3>
 
@@ -42,7 +42,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
                   {idx === 0 ? '💎' : idx === 1 ? '🌿' : idx === 2 ? '🌀' : '🔮'}
                 </div>
                 <div className="material-thumb-cost">{m.cost} SS</div>
-                
+
                 {/* Hover Tooltip */}
                 <div className="material-tooltip-content">
                   <div className="text-primary" style={{ fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.4rem' }}>{m.type}</div>
@@ -52,7 +52,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
               </div>
             ))}
           </div>
-          
+
           <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '0', border: '1px solid var(--color-border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
               <span className="text-dim">Calculated Elemental Root:</span>
@@ -65,7 +65,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
           </div>
         </div>
 
-        <button className="primary" onClick={onConfirm} style={{ padding: '0.8rem 2.5rem', fontSize: '1rem', marginBottom: '2rem' }}>
+        <button className="primary" onClick={onConfirm} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', marginBottom: '1rem' }}>
           <span className="kbd-badge">F</span>
           Consume Materials &amp; Confirm
         </button>

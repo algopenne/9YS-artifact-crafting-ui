@@ -8,6 +8,7 @@ import ShapeMaterial from './components/ShapeMaterial';
 import DemonCore from './components/DemonCore';
 import SpiritEssence from './components/SpiritEssence';
 import Harmonization from './components/Harmonization';
+import RuneInscription from './components/RuneInscription';
 import FinalTempering from './components/FinalTempering';
 import StatSidebar from './components/StatSidebar';
 import data from './data.json';
@@ -135,6 +136,12 @@ function App() {
           <Harmonization 
             context={context}
             setContext={setContext}
+            onConfirm={() => setGameState('RUNE_INSCRIPTION')}
+          />
+        )}
+
+        {gameState === 'RUNE_INSCRIPTION' && (
+          <RuneInscription 
             onConfirm={() => setGameState('TEMPERING')}
           />
         )}

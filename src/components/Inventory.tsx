@@ -43,16 +43,16 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
   };
 
   return (
-    <div style={{ marginTop: '1.5rem', width: '100%', background: 'var(--color-bg-panel)', border: '1px solid var(--color-border)', borderRadius: '0', padding: '1.2rem 1.4rem', textAlign: 'center' }}>
-      <h2 style={{ fontSize: '1.2rem', marginBottom: '0.3rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+    <div style={{ marginTop: '0.8rem', width: '100%', background: 'var(--color-bg-panel)', border: '1px solid var(--color-border)', borderRadius: '0', padding: '0.6rem 1rem', textAlign: 'center' }}>
+      <h2 style={{ fontSize: '1.1rem', marginBottom: '0.2rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         🎒 Spatial Ring Inventory
       </h2>
-      <p className="text-dim" style={{ fontSize: '0.75rem', marginBottom: '1.2rem', letterSpacing: '0.04em' }}>Player's Materials — {inventory.length} / 10 Slots Used</p>
+      <p className="text-dim" style={{ fontSize: '0.75rem', marginBottom: '0.8rem', letterSpacing: '0.04em' }}>Player's Materials — {inventory.length} / 10 Slots Used</p>
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
-        gap: '3px',
+        gridTemplateColumns: 'repeat(10, 1fr)',
+        gap: '4px',
         width: '100%',
       }}>
         {Array.from({ length: 10 }).map((_, slotIdx) => {
@@ -89,7 +89,7 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
               position: 'relative',
               borderRadius: '0',
             }}>
-              <div style={{ fontSize: '1.8rem', lineHeight: 1 }}>{getEmojiForMaterial(mat)}</div>
+              <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{getEmojiForMaterial(mat)}</div>
               {/* Stack count badge — bottom-right corner */}
               <div style={{
                 position: 'absolute',
