@@ -12,6 +12,7 @@ import RuneInscription from './components/RuneInscription';
 import FinalTempering from './components/FinalTempering';
 import StatSidebar from './components/StatSidebar';
 import data from './data.json';
+import { dict, DualText, DualInline } from './i18n';
 
 // Initialize stats from data.json
 const INITIAL_STATS: Record<string, number> = {};
@@ -73,10 +74,19 @@ function App() {
            flexDirection: 'column' 
         }}>
       {gameState !== 'RECIPE' && (
-        <header className="layout-header">
-          <button style={{ position: 'absolute', left: 0, top: 0 }} onClick={resetGame}>Back to Recipes</button>
-          <h1 className="text-gold">Celestial Forge</h1>
-          <p className="text-dim text-magic">Current Phase: <strong style={{color: 'var(--color-primary)'}}>{gameState.replace('_', ' ')}</strong></p>
+        <header className="layout-header" style={{ position: 'relative' }}>
+          <button style={{ position: 'absolute', left: 0, top: 0, padding: '0.4rem 1rem' }} onClick={resetGame}>
+             <DualInline en={dict.ui.backToRecipes.en} zh={dict.ui.backToRecipes.zh} />
+          </button>
+          <h1 className="text-gold" style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1.1 }}>
+            <DualText en={dict.ui.celestialForge.en} zh={dict.ui.celestialForge.zh} />
+          </h1>
+          <p className="text-dim text-magic" style={{ margin: '0.5rem 0 0', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <DualInline en={dict.ui.currentPhase.en} zh={dict.ui.currentPhase.zh} />: 
+            <strong style={{color: 'var(--color-primary)'}}>
+              <DualInline en={dict.stages[gameState].en} zh={dict.stages[gameState].zh} />
+            </strong>
+          </p>
         </header>
       )}
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import data from '../data.json';
 import type { CraftingContext } from '../types';
+import { dict, DualText, DualInline, t } from '../i18n';
 
 interface StatSidebarProps {
   context: CraftingContext;
@@ -38,14 +39,18 @@ export default function StatSidebar({ context }: StatSidebarProps) {
         marginBottom: '1rem', 
         fontSize: '1.4rem',
         borderBottom: '1px solid var(--color-border)',
-        paddingBottom: '0.8rem'
+        paddingBottom: '0.8rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0.2rem'
       }}>
-        📜 Artifact Statistics
+        <span>📜 <DualInline en="Artifact Statistics" zh="法宝属性详情" /></span>
       </h2>
       
       {groupedStats.map(group => (
         <div key={group.name} style={{ marginBottom: '1.2rem' }}>
-          <h3 style={{ 
+          <div style={{ 
             fontSize: '0.75rem', 
             textTransform: 'uppercase', 
             letterSpacing: '0.12rem',
@@ -53,11 +58,12 @@ export default function StatSidebar({ context }: StatSidebarProps) {
             marginBottom: '0.6rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.4rem'
+            gap: '0.4rem',
+            fontWeight: 'bold'
           }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'currentColor' }}></span>
-            {group.name}
-          </h3>
+            <DualInline en={group.name} zh={group.name === 'Offensive' ? '进攻类' : group.name === 'Defensive' ? '防御类' : '妙用与机动'} />
+          </div>
           
           <div className="stat-grid-dense" style={{ gap: '0.4rem 0.8rem' }}>
             {group.items.map(statName => {
@@ -77,7 +83,9 @@ export default function StatSidebar({ context }: StatSidebarProps) {
                     border: isPulsing ? '1px solid #00ffff' : isHarmonized ? '1px solid rgba(0, 255, 255, 0.4)' : '1px solid rgba(255,255,255,0.04)'
                   }}
                 >
-                  <span className="stat-label" style={{ fontSize: '0.75rem' }} title={statName}>{statName}</span>
+                  <div className="stat-label" style={{ fontSize: '0.65rem', lineHeight: '1.1', flex: 1, paddingRight: '0.4rem' }} title={statName}>
+                    <DualText en={statName} zh={t(statName)} />
+                  </div>
                   <span className="stat-value" style={{ fontSize: '0.85rem' }}>
                     {stats[statName] || 100}
                   </span>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { CraftingContext } from "../types";
+import { dict, DualText, DualInline } from '../i18n';
 
 interface SmeltMaterialsProps {
   context: CraftingContext;
@@ -8,10 +9,10 @@ interface SmeltMaterialsProps {
 }
 
 const FIRES = [
-  { name: 'Earth Vein Primordial Flame', stage: 'Qi Refining', cost: 100, tier: 1 },
-  { name: 'Samadhi True Fire', stage: 'Foundation Establishment', cost: 500, tier: 2 },
-  { name: 'Danyang Celestial Flame', stage: 'Golden Core', cost: 2000, tier: 3 },
-  { name: 'True Void Flame', stage: 'Nascent Soul', cost: 10000, tier: 4 },
+  { name: 'Earth Vein Primordial Flame', zh: '地脉真火', stage: 'Qi Refining', stageZh: '炼气期', cost: 100, tier: 1 },
+  { name: 'Samadhi True Fire', zh: '三昧真火', stage: 'Foundation Establishment', stageZh: '筑基期', cost: 500, tier: 2 },
+  { name: 'Danyang Celestial Flame', zh: '丹阳天火', stage: 'Golden Core', stageZh: '金丹期', cost: 2000, tier: 3 },
+  { name: 'True Void Flame', zh: '虚空业火', stage: 'Nascent Soul', stageZh: '元婴期', cost: 10000, tier: 4 },
 ];
 
 export default function SmeltMaterials({ context, setContext, onConfirm }: SmeltMaterialsProps) {
@@ -55,8 +56,12 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Smelt Materials</h1>
-      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>Select a spiritual fire and manage the smelting process.</p>
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+        <DualText en={dict.stages.SMELT.en} zh={dict.stages.SMELT.zh} />
+      </h1>
+      <div className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem', textAlign: 'center' }}>
+        <DualText en="Select a spiritual fire and manage the smelting process." zh="选择灵火并掌控熔炼过程。" />
+      </div>
 
       {!isSmelting ? (
         <div style={{ width: '100%', maxWidth: '800px' }}>
@@ -105,21 +110,27 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
                   }}>
                     {isSealed ? '🔒' : '🔥'}
                   </div>
-                  <h3 className={selectedFire === idx ? 'text-gold' : ''} style={{ fontSize: '1rem' }}>{fire.name}</h3>
-                  <p className="text-dim" style={{ marginBottom: '0.5rem', fontSize: '0.85rem' }}>Stage: {fire.stage}</p>
+                  <h3 className={selectedFire === idx ? 'text-gold' : ''} style={{ fontSize: '1rem', margin: '0 0 0.5rem 0' }}>
+                    <DualText en={fire.name} zh={fire.zh} />
+                  </h3>
+                  <div className="text-dim" style={{ marginBottom: '0.5rem', fontSize: '0.85rem' }}>
+                    <DualInline en={`Stage: ${fire.stage}`} zh={`境界: ${fire.stageZh}`} />
+                  </div>
                   
                   {isTooWeak && (
-                    <p style={{ color: 'var(--color-fire-root)', fontWeight: '600', fontSize: '0.82rem', margin: '0.4rem 0' }}>
-                      Intrinsic Heat Insufficient for Tier {artifactTier} Artifact
-                    </p>
+                    <div style={{ color: 'var(--color-fire-root)', fontWeight: '600', fontSize: '0.82rem', margin: '0.4rem 0' }}>
+                      <DualText en={`Intrinsic Heat Insufficient for Tier ${artifactTier} Artifact`} zh={`此火威力不足以熔炼${artifactTier}阶法宝`} />
+                    </div>
                   )}
                   {isSealed && (
-                    <p style={{ color: 'var(--color-text-dim)', fontWeight: '600', fontSize: '0.82rem', margin: '0.4rem 0' }}>
-                      Flame Source Sealed / Unknown
-                    </p>
+                    <div style={{ color: 'var(--color-text-dim)', fontWeight: '600', fontSize: '0.82rem', margin: '0.4rem 0' }}>
+                      <DualText en="Flame Source Sealed / Unknown" zh="火源已封印/未解锁" />
+                    </div>
                   )}
                   
-                  {!isDisabled && <p className="text-magic" style={{ margin: 0, fontSize: '0.9rem' }}>Base Fuel Cost: {fire.cost} SS</p>}
+                  {!isDisabled && <div className="text-magic" style={{ margin: 0, fontSize: '0.9rem' }}>
+                    <DualInline en={`Base Cost: ${fire.cost} SS`} zh={`基础消耗: ${fire.cost} 灵石`} />
+                  </div>}
                 </div>
               );
             })}
@@ -127,14 +138,16 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <button className="primary" onClick={handleStart} disabled={selectedFire === null}>
               <span className="kbd-badge">Space</span>
-              Ignite Furnace
+              <DualInline en="Ignite Furnace" zh="点燃丹炉" />
             </button>
           </div>
         </div>
       ) : (
         <div className="panel" style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
           <div style={{ fontSize: '5rem', marginBottom: '1rem' }} className="layer-fire-flicker">🔥</div>
-          <h3 className="text-gold" style={{ marginBottom: '2rem' }}>{FIRES[selectedFire!].name} Active</h3>
+          <h3 className="text-gold" style={{ marginBottom: '2rem' }}>
+            <DualInline en={`${FIRES[selectedFire!].name} Active`} zh={`${FIRES[selectedFire!].zh} 运行中`} />
+          </h3>
           
           <div className="smelt-progress-bg">
             <div className="smelt-progress-fill" style={{ width: `${progress}%` }}></div>
@@ -145,18 +158,22 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
 
           {progress < 100 ? (
             <div>
-              <p className="text-dim" style={{ fontSize: '0.9rem' }}>Smelting is a long arduous process. Burn spirit stones to accelerate it.</p>
+              <div className="text-dim" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
+                <DualText en="Smelting is a long arduous process. Burn spirit stones to accelerate it." zh="熔炼需时极长。燃烧灵石可加速进度。" />
+              </div>
               <button className="danger" onClick={handleInvest}>
                 <span className="kbd-badge">E</span>
-                Burn 100 Spirit Stones (Invested: {invested})
+                <DualInline en={`Burn 100 Spirit Stones (Invested: ${invested})`} zh={`消耗100灵石 (已投入: ${invested})`} />
               </button>
             </div>
           ) : (
             <div>
-              <p className="text-magic" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>Smelting Complete!</p>
+              <div className="text-magic" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+                <DualText en="Smelting Complete!" zh="熔炼完成！" />
+              </div>
               <button className="primary" onClick={onConfirm} style={{ marginTop: '1rem' }}>
                 <span className="kbd-badge">F</span>
-                Extract Primordial Energy
+                <DualInline en="Extract Primordial Energy" zh="提取本源真气" />
               </button>
             </div>
           )}

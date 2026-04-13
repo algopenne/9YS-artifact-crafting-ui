@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import data from '../data.json';
 import { getMaterialMetadata } from '../materialData';
+import { dict, DualInline, DualText, t } from '../i18n';
 
 interface InventoryProps {
   highlightedRecipe: any | null;
@@ -45,9 +46,11 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
   return (
     <div style={{ marginTop: '0.8rem', width: '100%', background: 'var(--color-bg-panel)', border: '1px solid var(--color-border)', borderRadius: '0', padding: '0.6rem 1rem', textAlign: 'center' }}>
       <h2 style={{ fontSize: '1.1rem', marginBottom: '0.2rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-        🎒 Spatial Ring Inventory
+        🎒 <DualInline en={dict.ui.inventory.en} zh={dict.ui.inventory.zh} />
       </h2>
-      <p className="text-dim" style={{ fontSize: '0.75rem', marginBottom: '0.8rem', letterSpacing: '0.04em' }}>Player's Materials — {inventory.length} / 10 Slots Used</p>
+      <div className="text-dim" style={{ fontSize: '0.75rem', marginBottom: '0.8rem', letterSpacing: '0.04em' }}>
+        <DualInline en={dict.ui.playersMaterials.en} zh={dict.ui.playersMaterials.zh} /> — {inventory.length} / 10 <DualInline en={dict.ui.slotsUsed.en} zh={dict.ui.slotsUsed.zh} />
+      </div>
 
       <div style={{
         display: 'grid',
@@ -102,10 +105,14 @@ export default function Inventory({ highlightedRecipe }: InventoryProps) {
                 lineHeight: 1,
               }}>{stackCount}</div>
               <div className="custom-tooltip">
-                <strong className="text-gold" style={{ display: 'block', fontSize: '1rem', marginBottom: '0.3rem' }}>{mat}</strong>
-                <div style={{ color: 'var(--color-primary)', fontSize: '0.75rem', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{getMaterialMetadata(mat).category}</div>
+                <div className="text-gold" style={{ display: 'block', fontSize: '1rem', marginBottom: '0.3rem', fontWeight: 'bold' }}>
+                  <DualText en={mat} zh={t(mat)} />
+                </div>
+                <div style={{ color: 'var(--color-primary)', fontSize: '0.75rem', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  <DualInline en={(dict.materialTypes as any)[getMaterialMetadata(mat).category]?.en || getMaterialMetadata(mat).category} zh={(dict.materialTypes as any)[getMaterialMetadata(mat).category]?.zh || ''} />
+                </div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--color-text-dim)', lineHeight: '1.3' }}>{getMaterialMetadata(mat).desc}</div>
-                <div style={{ marginTop: '0.4rem', color: 'var(--color-magic)', fontSize: '0.75rem' }}>Qty: {stackCount}</div>
+                <div style={{ marginTop: '0.4rem', color: 'var(--color-magic)', fontSize: '0.75rem' }}><DualInline en={dict.ui.qty.en} zh={dict.ui.qty.zh} />: {stackCount}</div>
               </div>
             </div>
           )

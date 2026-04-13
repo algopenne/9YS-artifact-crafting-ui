@@ -2,6 +2,7 @@ import React from 'react';
 import data from '../data.json';
 import type { CraftingContext } from '../types';
 import Inventory from './Inventory';
+import { dict, DualText, DualInline, parseRecipeName, t } from '../i18n';
 
 interface ChooseMaterialsProps {
   context: CraftingContext;
@@ -25,14 +26,18 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>Gather Materials</h1>
-      <p className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Confirm the required ingredients to begin.</p>
+      <h1 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.2rem', textAlign: 'center' }}>
+        <DualText en={dict.stages.MATERIALS.en} zh={dict.stages.MATERIALS.zh} />
+      </h1>
+      <div className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '1rem', textAlign: 'center' }}>
+        <DualText en={dict.ui.confirmIngredients.en} zh={dict.ui.confirmIngredients.zh} />
+      </div>
 
       {/* Unified Centered Constraint Wrapper */}
       <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div className="panel" style={{ width: '100%', marginBottom: '1rem', padding: '1.2rem 1.5rem' }}>
           <h3 className="text-gold" style={{ marginBottom: '1rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem', textAlign: 'center' }}>
-            {recipe["__EMPTY"]}
+            <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />
           </h3>
 
           <div className="material-thumb-container">
@@ -45,9 +50,13 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
 
                 {/* Hover Tooltip */}
                 <div className="material-tooltip-content">
-                  <div className="text-primary" style={{ fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.4rem' }}>{m.type}</div>
-                  <div style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: 'var(--color-gold)' }}>{m.name}</div>
-                  <div className="text-dim" style={{ fontSize: '0.8rem' }}>Root: {m.root}</div>
+                  <div className="text-primary" style={{ fontWeight: 'bold', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                    <DualInline en={(dict.materialTypes as any)[m.type]?.en || m.type} zh={(dict.materialTypes as any)[m.type]?.zh || ''} />
+                  </div>
+                  <div style={{ fontSize: '1.1rem', marginBottom: '0.3rem', color: 'var(--color-gold)' }}>
+                    <DualInline en={m.name} zh={t(m.name)} />
+                  </div>
+                  <div className="text-dim" style={{ fontSize: '0.8rem' }}>Root: <DualInline en={(dict.roots as any)[m.root + ' Root']?.en || m.root} zh={(dict.roots as any)[m.root + ' Root']?.zh || ''} /></div>
                 </div>
               </div>
             ))}
@@ -55,19 +64,19 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
 
           <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '0', border: '1px solid var(--color-border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
-              <span className="text-dim">Calculated Elemental Root:</span>
-              <strong className="text-primary">{finalRoot}</strong>
+              <span className="text-dim"><DualInline en={dict.ui.calculatedRoot.en} zh={dict.ui.calculatedRoot.zh} />:</span>
+              <strong className="text-primary"><DualInline en={(dict.roots as any)[finalRoot]?.en || finalRoot} zh={(dict.roots as any)[finalRoot]?.zh || ''} /></strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem' }}>
-              <span className="text-dim">Total Spirit Stone Cost:</span>
+              <span className="text-dim"><DualInline en={dict.ui.totalCost.en} zh={dict.ui.totalCost.zh} />:</span>
               <strong className="text-magic">{totalCost} SS</strong>
             </div>
           </div>
         </div>
 
-        <button className="primary" onClick={onConfirm} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', marginBottom: '1rem' }}>
+        <button className="primary" onClick={onConfirm} style={{ padding: '0.6rem 2.5rem', fontSize: '1rem', marginBottom: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <span className="kbd-badge">F</span>
-          Consume Materials &amp; Confirm
+          <DualInline en={dict.ui.consumeAndConfirm.en} zh={dict.ui.consumeAndConfirm.zh} />
         </button>
 
         <Inventory highlightedRecipe={recipe} />
