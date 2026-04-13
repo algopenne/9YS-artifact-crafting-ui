@@ -26,7 +26,7 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
   const recipe = data.Recipes[context.recipeIndex || 0];
 
   return (
-    <div className="flex-center" style={{ height: '100%', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
+    <div className="wuxia-screen-enter flex-center" style={{ height: '100%', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
       <h2 className="text-gold" style={{ fontSize: '2rem', textShadow: '0 0 20px var(--color-primary)', margin: 0, textAlign: 'center' }}>
         <DualText en="Masterpiece Crafted!" zh="绝世法宝，铸造成功！" />
       </h2>
@@ -113,12 +113,12 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
                 </>
              )}
           </div>
-      </div>
 
-      <button className="primary" onClick={onRestart} style={{ fontSize: '1.1rem', padding: '0.6rem 2rem', marginTop: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
-        <span className="kbd-badge">R</span>
-        <DualInline en="Start New Artifact" zh="炼制新法宝" />
-      </button>
+        <button className="primary" onClick={onRestart} style={{ fontSize: '1.1rem', padding: '0.6rem 2rem', marginTop: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+          <span className="kbd-badge">R</span>
+          <DualInline en="Start New Artifact" zh="炼制新法宝" />
+        </button>
+      </div>
     </div>
   );
 }

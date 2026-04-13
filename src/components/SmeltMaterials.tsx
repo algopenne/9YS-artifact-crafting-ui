@@ -37,6 +37,7 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
   const [progress, setProgress] = useState(0);
   const [isSmelting, setIsSmelting] = useState(false);
   const [invested, setInvested] = useState(0);
+  const [isShaking, setIsShaking] = useState(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -59,11 +60,13 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
       setInvested(prev => prev + 100);
       setProgress(p => Math.min(100, p + 5)); // Flat jump + speed bonus
       setContext({ ...context, investedStones: context.investedStones + 100 });
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
     }
   };
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         <DualText en={dict.stages.SMELT.en} zh={dict.stages.SMELT.zh} />
       </h1>
@@ -178,7 +181,7 @@ export default function SmeltMaterials({ context, setContext, onConfirm }: Smelt
           </div>
           
           {/* Bottom section with backdrop for text and controls */}
-          <div className="panel" style={{ padding: '2rem' }}>
+          <div className={`panel ${isShaking ? 'violent-shake' : ''}`} style={{ padding: '2rem' }}>
             <div className="smelt-progress-bg">
               <div className="smelt-progress-fill" style={{ width: `${progress}%` }}></div>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', textShadow: '0 0 5px black' }}>

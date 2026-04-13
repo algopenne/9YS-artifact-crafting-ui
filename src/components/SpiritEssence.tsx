@@ -50,7 +50,7 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
   const essenceRequirement = recipe["Spirit Essence Requirement"];
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '2.8rem', marginBottom: '0.5rem', color: 'var(--color-tier-4)', letterSpacing: '0.06em', textAlign: 'center' }}>
         <DualText en="Awaken Spirit Essence" zh="唤醒精魂" />
       </h1>

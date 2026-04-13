@@ -28,7 +28,7 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
   const hoveredRecipe = hoveredIdx !== null ? recipes[hoveredIdx] : null;
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
 
       {/* Main Content */}
       {/* Main Content */}

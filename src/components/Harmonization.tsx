@@ -323,7 +323,7 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
 
   // ── Summary ────────────────────────────────────────────────────────────────
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '2.8rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         <DualText en="Harmonization Complete" zh="修复完成" />
       </h1>

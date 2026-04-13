@@ -47,7 +47,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
   const totalCost = materials.reduce((acc, curr) => acc + curr.cost, 0);
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.2rem', textAlign: 'center' }}>
         <DualText en={dict.stages.MATERIALS.en} zh={dict.stages.MATERIALS.zh} />
       </h1>

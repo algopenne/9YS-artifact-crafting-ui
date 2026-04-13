@@ -7,7 +7,7 @@ interface RuneInscriptionProps {
 
 export default function RuneInscription({ onConfirm }: RuneInscriptionProps) {
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         <DualText en={dict.stages.RUNE_INSCRIPTION.en} zh={dict.stages.RUNE_INSCRIPTION.zh} />
       </h1>

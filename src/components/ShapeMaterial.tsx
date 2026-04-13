@@ -34,7 +34,7 @@ export default function ShapeMaterial({ context, onFinishFabing, onProceedLingQi
   }, []);
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         <DualText en={dict.stages.SHAPE.en} zh={dict.stages.SHAPE.zh} />
       </h1>

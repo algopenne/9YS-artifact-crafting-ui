@@ -55,7 +55,7 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
   };
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="wuxia-screen-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         <DualText en="Inject Demon Core" zh="注入妖丹" />
       </h1>

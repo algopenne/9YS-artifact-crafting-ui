@@ -321,8 +321,91 @@ button.danger:hover {
 }
 
 .has-tooltip { position: relative; }
-.custom-tooltip { visibility: hidden; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); width: max-content; max-width: 250px; background-color: var(--color-bg-base); color: var(--color-text); text-align: left; border-radius: 8px; padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--color-border); z-index: 100; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.custom-tooltip { visibility: hidden; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); width: max-content; max-width: 250px; background-color: var(--color-bg-base); color: var(--color-text); text-align: left; border-radius: 8px; padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--color-border); z-index: 100; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
 .has-tooltip:hover .custom-tooltip { visibility: visible; opacity: 1; }
+
+/* Where Winds Meet Wuxia RPG style screen transitions */
+@keyframes wuxiaFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.97) translateY(15px);
+    filter: blur(3px) brightness(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(1px) brightness(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes wuxiaFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0) brightness(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.03) translateY(-15px);
+    filter: blur(3px) brightness(0.8);
+  }
+}
+
+@keyframes energyFlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 150, 0, 0.1), 0 0 30px rgba(255, 150, 0, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 150, 0, 0.2), 0 0 50px rgba(255, 150, 0, 0.1);
+  }
+}
+
+@keyframes inkWash {
+  0% {
+    opacity: 0;
+    background-position: 0% 50%;
+  }
+  100% {
+    opacity: 0.1;
+    background-position: 100% 50%;
+  }
+}
+
+.wuxia-screen-enter {
+  animation: wuxiaFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.wuxia-screen-exit {
+  animation: wuxiaFadeOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.wuxia-panel {
+  animation: energyFlow 4s ease-in-out infinite;
+}
+
+.wuxia-ink-overlay {
+  animation: inkWash 0.8s ease-out forwards;
+}
+
+@keyframes violentShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px) rotate(-2deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px) rotate(2deg);
+  }
+}
+
+.violent-shake {
+  animation: violentShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
 
 .material-thumb-container {
   display: flex;
