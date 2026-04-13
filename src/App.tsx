@@ -38,7 +38,8 @@ function App() {
       investedStones: 0,
       chosenFlawCategory: null,
       chosenHarmonizationCard: null,
-      stats: INITIAL_STATS
+      stats: INITIAL_STATS,
+      harmonizedStats: []
     });
   };
 

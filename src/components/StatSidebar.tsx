@@ -1,12 +1,13 @@
 import React from 'react';
 import data from '../data.json';
+import type { CraftingContext } from '../types';
 
 interface StatSidebarProps {
   context: CraftingContext;
 }
 
 export default function StatSidebar({ context }: StatSidebarProps) {
-  const { stats, lastUpdatedStat, lastUpdateTimestamp, harmonizedStats } = context;
+  const { stats, lastUpdatedStat, lastUpdateTimestamp, harmonizedStats = [] } = context;
 
   // Group stats by category based on data.json structure
   const categories = ['Offensive', 'Defensive', 'Utility / Mobility'];

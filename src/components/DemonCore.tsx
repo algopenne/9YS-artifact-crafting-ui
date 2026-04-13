@@ -32,7 +32,8 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
             <p className="text-dim" style={{ fontSize: '0.9rem' }}>Contains the fierce residual will of a profound demon.</p>
           </div>
 
-          <button className="danger" onClick={handleInject} style={{ padding: '1rem 3rem', fontSize: '1.2rem', borderColor: 'var(--color-fire-root)' }}>
+          <button className="danger" onClick={handleInject} style={{ padding: '0.8rem 2.5rem', fontSize: '1rem' }}>
+            <span className="kbd-badge">F</span>
             Fuse Demon Core
           </button>
         </div>
@@ -42,12 +43,14 @@ export default function DemonCore({ context, onFinishLingQi, onProceedFaBao }: D
           <h3 className="text-magic" style={{ fontSize: '2rem', marginBottom: '2rem' }}>Ling Qi Forged!</h3>
           <p className="text-gold" style={{ marginBottom: '3rem' }}>The weapon now resonates with telekinetic energy.</p>
 
-          <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
             <button className="primary" onClick={onFinishLingQi}>
+              <span className="kbd-badge">F</span>
               Complete Crafting (Ling Qi)
             </button>
             {recipe["Spirit Essence Requirement"] && (
-              <button className="danger" onClick={onProceedFaBao} style={{ border: '1px solid magenta', color: 'magenta' }}>
+              <button onClick={onProceedFaBao} style={{ border: '1px solid var(--color-tier-4)', color: 'var(--color-tier-4)', background: 'hsla(270, 40%, 10%, 0.5)' }}>
+                <span className="kbd-badge">E</span>
                 Elevate to FaBao (Inject Spirit Essence)
               </button>
             )}

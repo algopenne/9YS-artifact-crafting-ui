@@ -103,18 +103,18 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', color: 'var(--color-primary)' }}>Harmonization</h1>
+      <h1 className="text-gold" style={{ fontSize: '2.8rem', marginBottom: '0.5rem', letterSpacing: '0.06em' }}>Harmonization</h1>
       
       {!isFinished ? (
         <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'center' }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
             {[0, 1, 2].map(i => (
-              <div key={i} style={{ 
-                width: '12px', height: '12px', borderRadius: '50%',
-                background: i === activeIdx ? 'var(--color-primary)' : i < activeIdx ? 'var(--color-gold)' : 'rgba(255,255,255,0.1)',
-                boxShadow: i === activeIdx ? '0 0 10px var(--color-primary)' : 'none'
-              }}></div>
-            ))}
+            <div key={i} style={{ 
+              width: '10px', height: '10px', borderRadius: '50%',
+              background: i === activeIdx ? 'var(--color-primary)' : i < activeIdx ? 'var(--color-magic)' : 'rgba(255,255,255,0.12)',
+              boxShadow: i === activeIdx ? '0 0 8px var(--color-primary)' : i < activeIdx ? '0 0 6px var(--color-magic)' : 'none'
+            }}></div>
+          ))}
           </div>
           
           <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
@@ -129,14 +129,17 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
           <div className="item-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
             {cards.map((card, idx) => (
               <div key={idx} className="card-draw" onClick={() => handleSelect(idx)}>
-                <h4 style={{ color: 'var(--color-magic)', fontSize: '1.2rem', marginBottom: '1rem' }}>
+                <h4 style={{ color: 'var(--color-magic)', fontSize: '1.4rem', marginBottom: '0.8rem', lineHeight: 1 }}>
                    {currentFlaw.category === 'Offensive' ? '⚔️' : currentFlaw.category === 'Defensive' ? '🛡️' : '🦅'}
                 </h4>
-                <h3 style={{ marginBottom: '1rem', color: 'var(--color-primary)', fontSize: '1.1rem' }}>{card.resolution}</h3>
-                <p style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>
-                   Increase <br/> <strong className="text-gold">{card.stat}</strong>
+                <h3 style={{ marginBottom: '0.8rem', color: 'var(--color-primary)', fontSize: '1rem', letterSpacing: '0.03em', lineHeight: 1.3 }}>{card.resolution}</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--color-text-dim)', marginBottom: '0.4rem' }}>
+                   Increases
                 </p>
-                <div style={{ fontSize: '1.8rem', color: 'var(--color-primary)', fontWeight: 'bold' }}>
+                <p style={{ fontSize: '0.95rem', color: 'var(--color-text)', marginBottom: '0.6rem', fontWeight: 600 }}>
+                   {card.stat}
+                </p>
+                <div style={{ fontSize: '1.6rem', color: 'var(--color-gold)', fontWeight: 'bold', letterSpacing: '0.02em' }}>
                   +{card.buff}%
                 </div>
               </div>
@@ -154,23 +157,25 @@ export default function Harmonization({ context, setContext, onConfirm }: Harmon
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center',
-                padding: '1.5rem',
+                padding: '1.2rem 1.4rem',
                 border: '1px solid var(--color-border)',
-                background: 'rgba(255,255,255,0.03)'
+                background: 'var(--color-bg-subpanel)',
+                borderLeft: '3px solid var(--color-magic)'
               }}>
                 <div style={{ textAlign: 'left' }}>
-                  <p className="text-dim" style={{ fontSize: '0.8rem', margin: 0 }}>FLAW: {res.flawTitle}</p>
-                  <h4 className="text-gold" style={{ margin: '0.2rem 0' }}>{res.resolution}</h4>
+                  <p className="text-dim" style={{ fontSize: '0.75rem', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Flaw Purified: {res.flawTitle}</p>
+                  <h4 className="text-primary" style={{ margin: '0.25rem 0', fontSize: '1rem' }}>{res.resolution}</h4>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p style={{ margin: 0, fontSize: '1.1rem' }}>{res.stat}</p>
-                  <p style={{ margin: 0, color: 'var(--color-primary)', fontWeight: 'bold' }}>+{res.buff}%</p>
+                  <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text-dim)' }}>{res.stat}</p>
+                  <p style={{ margin: 0, color: 'var(--color-gold)', fontWeight: 'bold', fontSize: '1.2rem' }}>+{res.buff}%</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <button className="primary" onClick={onConfirm} style={{ padding: '1rem 4rem', fontSize: '1.3rem' }}>
+          <button className="primary" onClick={onConfirm} style={{ padding: '0.9rem 4rem', fontSize: '1.1rem' }}>
+            <span className="kbd-badge">F</span>
             Conclude Harmonization
           </button>
         </div>

@@ -18,8 +18,8 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
       
       {/* Main Content */}
       <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Select Recipe</h1>
-      <p className="text-magic" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>
-        Material Scan complete, scanned and found what you can craft.
+      <p className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '2.5rem', letterSpacing: '0.02em' }}>
+        Material Scan complete. Select a recipe to begin crafting.
       </p>
 
       {/* Unified Centered Constraint Wrapper */}

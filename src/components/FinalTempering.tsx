@@ -48,24 +48,28 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
 
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
              {context.tier === 'LingQi' && (
-                <div style={{ padding: '1rem', background: 'rgba(255, 0, 0, 0.1)', border: '1px solid var(--color-fire-root)', borderRadius: '8px', textAlign: 'center' }}>
-                   <div className="text-fire-root" style={{ fontWeight: 'bold', color: 'var(--color-fire-root)' }}>Demon Core Passive: Telekinesis & Levitation</div>
+                <div style={{ padding: '0.8rem 1rem', background: 'hsla(5, 50%, 12%, 0.5)', border: '1px solid var(--color-fire-root)', borderLeft: '3px solid var(--color-fire-root)', borderRadius: '0', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                   <span style={{ fontSize: '1.2rem' }}>🩸</span>
+                   <div className="text-fire-root" style={{ fontWeight: 600, color: 'var(--color-fire-root)', fontSize: '0.9rem' }}>Demon Core Passive: Telekinesis & Levitation</div>
                 </div>
              )}
              {context.tier === 'FaBao' && (
                 <>
-                  <div style={{ padding: '1rem', background: 'rgba(255, 0, 0, 0.1)', border: '1px solid var(--color-fire-root)', borderRadius: '8px', textAlign: 'center' }}>
-                     <div className="text-fire-root" style={{ fontWeight: 'bold', color: 'var(--color-fire-root)' }}>Demon Core Passive: Telekinesis & Levitation</div>
+                  <div style={{ padding: '0.8rem 1rem', background: 'hsla(5, 50%, 12%, 0.5)', border: '1px solid var(--color-fire-root)', borderLeft: '3px solid var(--color-fire-root)', borderRadius: '0', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                     <span style={{ fontSize: '1.2rem' }}>🩸</span>
+                     <div style={{ fontWeight: 600, color: 'var(--color-fire-root)', fontSize: '0.9rem' }}>Demon Core Passive: Telekinesis & Levitation</div>
                   </div>
-                  <div style={{ padding: '1rem', background: 'rgba(255, 0, 255, 0.1)', border: '1px solid magenta', borderRadius: '8px', textAlign: 'center' }}>
-                     <div style={{ fontWeight: 'bold', color: 'magenta' }}>Awakened Spirit: Sentient Autonomous Companion</div>
+                  <div style={{ padding: '0.8rem 1rem', background: 'hsla(270, 40%, 12%, 0.5)', border: '1px solid var(--color-tier-4)', borderLeft: '3px solid var(--color-tier-4)', borderRadius: '0', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                     <span style={{ fontSize: '1.2rem' }}>👁️</span>
+                     <div style={{ fontWeight: 600, color: 'var(--color-tier-4)', fontSize: '0.9rem' }}>Awakened Spirit: Sentient Autonomous Companion</div>
                   </div>
                 </>
              )}
           </div>
       </div>
 
-      <button className="primary" onClick={onRestart} style={{ fontSize: '1.5rem', padding: '1rem 3rem', marginTop: '2rem' }}>
+      <button className="primary" onClick={onRestart} style={{ fontSize: '1.2rem', padding: '0.9rem 3rem', marginTop: '2rem' }}>
+        <span className="kbd-badge">R</span>
         Return to Anvil
       </button>
     </div>

@@ -53,7 +53,7 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
             ))}
           </div>
           
-          <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--color-primary)' }}>
+          <div style={{ marginTop: '1.5rem', background: 'var(--color-bg-base)', padding: '1rem', borderRadius: '0', border: '1px solid var(--color-border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
               <span className="text-dim">Calculated Elemental Root:</span>
               <strong className="text-primary">{finalRoot}</strong>
@@ -65,8 +65,9 @@ export default function ChooseMaterials({ context, onConfirm }: ChooseMaterialsP
           </div>
         </div>
 
-        <button className="primary" onClick={onConfirm} style={{ padding: '1rem 3rem', fontSize: '1.2rem', marginBottom: '2rem' }}>
-          Consume Materials & Confirm
+        <button className="primary" onClick={onConfirm} style={{ padding: '0.8rem 2.5rem', fontSize: '1rem', marginBottom: '2rem' }}>
+          <span className="kbd-badge">F</span>
+          Consume Materials &amp; Confirm
         </button>
 
         <Inventory highlightedRecipe={recipe} />
