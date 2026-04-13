@@ -31,20 +31,10 @@ export default function SelectRecipe({ onSelect }: SelectRecipeProps) {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
 
       {/* Main Content */}
-      {/* Grey bar title showing current stage */}
-      <div style={{ 
-        width: '100%', 
-        backgroundColor: 'rgba(128, 128, 128, 0.8)', 
-        padding: '0.8rem 1rem', 
-        textAlign: 'center',
-        borderBottom: '2px solid var(--color-primary)',
-        marginBottom: '1rem'
-      }}>
-        <h1 className="text-gold" style={{ fontSize: '2.2rem', margin: 0 }}>
-          <DualText en={dict.stages.RECIPE.en} zh={dict.stages.RECIPE.zh} />
-        </h1>
-      </div>
-
+      {/* Main Content */}
+      <h1 className="text-gold" style={{ fontSize: '3rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+        <DualText en={dict.stages.RECIPE.en} zh={dict.stages.RECIPE.zh} />
+      </h1>
       <div className="text-magic" style={{ fontSize: '1.1rem', marginBottom: '1.5rem', letterSpacing: '0.02em', textAlign: 'center' }}>
         <DualText en={dict.ui.materialScanComplete.en} zh={dict.ui.materialScanComplete.zh} />
       </div>
