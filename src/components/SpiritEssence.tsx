@@ -17,6 +17,28 @@ const getRecipeIcon = (recipeName: string) => {
   return '??';
 };
 
+const getMaterialIcon = (name: string) => {
+  // Specific material icons
+  if (name === 'Deep Sea Iron') return '/src/assets/material-deep-sea-iron.png';
+  if (name === 'Thunder Bamboo') return '/src/assets/material-thunder-bamboo.png';
+  if (name === 'Magma Turtle Shell') return '/src/assets/material-magma-turtle-shell.png';
+  if (name === 'Heavenly Starfall Iron') return '/src/assets/material-heavenly-starfall-iron.png';
+  if (name === 'Netherflame Crystal') return '/src/assets/material-netherflame-crystal.png';
+  if (name === 'Razoredge Obsidian') return '/src/assets/material-razoredge-obsidian.png';
+  if (name === 'Demon Heart') return '/src/assets/material-demon-heart.png';
+  if (name === 'Spirit Wolf Soul') return '/src/assets/material-spirit-wolf-soul.png';
+  
+  // Fallback emoji for other materials
+  if (name.includes('Demon') || name.includes('Heart')) return '??';
+  if (name.includes('Soul') || name.includes('Spirit')) return '??';
+  if (name.includes('Iron') || name.includes('Starfall')) return '??';
+  if (name.includes('Obsidian') || name.includes('Iron')) return '??';
+  if (name.includes('Bamboo')) return '??';
+  if (name.includes('Crystal')) return '??';
+  if (name.includes('Shell') || name.includes('Turtle')) return '??';
+  return '??';
+};
+
 interface SpiritEssenceProps {
   context: CraftingContext;
   onConfirm: () => void;
@@ -39,7 +61,20 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
       {!injected ? (
         <div style={{ textAlign: 'center' }}>
           <div className="panel" style={{ width: '400px', marginBottom: '2rem', border: '1px solid var(--color-tier-4)', boxShadow: '0 0 20px hsla(270, 55%, 62%, 0.15)', borderLeft: '3px solid var(--color-tier-4)' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🐺</div>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
+              {(() => {
+                const icon = getMaterialIcon(essenceRequirement);
+                return icon.startsWith('/src/assets/') ? (
+                  <img 
+                    src={icon} 
+                    alt={essenceRequirement} 
+                    style={{ width: '4rem', height: '4rem' }}
+                  />
+                ) : (
+                  icon
+                );
+              })()}
+            </div>
             <h3 style={{ color: 'var(--color-tier-4)', marginBottom: '0.4rem' }}>{essenceRequirement}</h3>
             <div className="text-dim" style={{ fontSize: '0.85rem', margin: 0 }}>
               <DualText en="A captured soul ready to accept a new vessel." zh="一个准备好接纳新躯壳的禁锢灵体。" />
@@ -60,20 +95,43 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
         </div>
       ) : (
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '6rem', textShadow: '0 0 40px var(--color-tier-4)', marginBottom: '1rem' }}>
-            {(() => {
-              const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
-              const icon = getRecipeIcon(recipeName);
-              return icon.startsWith('/src/assets/') ? (
-                <img 
-                  src={icon} 
-                  alt={recipeName} 
-                  style={{ width: '6rem', height: '6rem' }}
-                />
-              ) : (
-                icon
-              );
-            })()}
+          <div className="selectable-card" style={{ 
+            position: 'relative', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center',
+            width: '300px',
+            margin: '0 auto 1rem auto'
+          }}>
+            <div style={{
+              fontSize: '3rem',
+              marginBottom: '0.1rem',
+              flex: 1,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {(() => {
+                const recipeName = parseRecipeName(recipe["__EMPTY"] || "").baseEn;
+                const icon = getRecipeIcon(recipeName);
+                return icon.startsWith('/src/assets/') ? (
+                  <img 
+                    src={icon} 
+                    alt={recipeName} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  icon
+                );
+              })()}
+            </div>
+            <h3 style={{ margin: '0 0 0.5rem 0', textAlign: 'center' }}>
+              <DualText en={parseRecipeName(recipe["__EMPTY"] || "").baseEn} zh={parseRecipeName(recipe["__EMPTY"] || "").baseZh} />
+            </h3>
+            <div className="text-magic" style={{ margin: 0, fontSize: '0.9rem', textAlign: 'center' }}>
+              <DualInline en={parseRecipeName(recipe["__EMPTY"] || "").rootEn} zh={parseRecipeName(recipe["__EMPTY"] || "").rootZh} />
+            </div>
           </div>
           <h3 style={{ fontSize: '2rem', marginBottom: '2rem', color: 'var(--color-tier-4)', letterSpacing: '0.06em' }}>
             <DualText en="FaBao Awakened!" zh="法宝已苏醒！" />

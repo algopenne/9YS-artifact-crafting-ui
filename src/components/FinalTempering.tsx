@@ -26,7 +26,7 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
   const recipe = data.Recipes[context.recipeIndex || 0];
 
   return (
-    <div className="flex-center" style={{ height: '100%', flexDirection: 'column', gap: '2rem', paddingBottom: '4rem' }}>
+    <div className="flex-center" style={{ height: '100%', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
       <h2 className="text-gold" style={{ fontSize: '2rem', textShadow: '0 0 20px var(--color-primary)', margin: 0, textAlign: 'center' }}>
         <DualText en="Masterpiece Crafted!" zh="绝世法宝，铸造成功！" />
       </h2>
@@ -41,17 +41,16 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
         background: 'linear-gradient(135deg, var(--color-bg-base), rgba(255,150,0,0.1))',
         boxShadow: '0 0 50px var(--color-primary-dim)', 
         border: '2px solid var(--color-primary)',
-        padding: '3rem', minWidth: '500px',
-        marginTop: '2rem'
+        padding: '2rem', minWidth: '500px',
+        marginTop: '1rem'
       }}>
           <div style={{
                   fontSize: '2.5rem',
-                  marginBottom: '0.1rem',
+                  marginBottom: '0.5rem',
                   width: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '1rem 0',
                   filter: 'drop-shadow(0 0 20px var(--color-primary))'
                 }}>
              {(() => {
@@ -68,14 +67,14 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
                );
              })()}
           </div>
-          <h3 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+          <h3 className="text-gold" style={{ fontSize: '2.5rem', marginBottom: '0.3rem', textAlign: 'center' }}>
             <DualText {...{en: parseRecipeName(recipe["__EMPTY"] || "").baseEn, zh: parseRecipeName(recipe["__EMPTY"] || "").baseZh}} />
           </h3>
-          <div className="text-dim" style={{ marginBottom: '2rem' }}>
+          <div className="text-dim" style={{ marginBottom: '1rem' }}>
             <DualInline en="Tier" zh="品阶" />: <DualInline en={context.tier} zh={context.tier === 'FaBao' ? '法宝' : context.tier === 'LingQi' ? '灵器' : '法兵'} />
           </div>
           
-          <div style={{ margin: '0 0 2rem 0', width: '100%', borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem' }}>
+          <div style={{ margin: '0 0 1rem 0', width: '100%', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
                 <span className="text-dim"><DualInline en="Spirit Stones Burned" zh="灵石真火消耗" /></span> 
                 <strong className="text-magic">{context.investedStones} SS</strong>
@@ -116,7 +115,7 @@ export default function FinalTempering({ context, onRestart }: FinalTemperingPro
           </div>
       </div>
 
-      <button className="primary" onClick={onRestart} style={{ fontSize: '1.1rem', padding: '0.8rem 3rem', marginTop: '2rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+      <button className="primary" onClick={onRestart} style={{ fontSize: '1.1rem', padding: '0.6rem 2rem', marginTop: '1rem', display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
         <span className="kbd-badge">R</span>
         <DualInline en="Start New Artifact" zh="炼制新法宝" />
       </button>
