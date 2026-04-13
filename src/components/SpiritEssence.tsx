@@ -37,10 +37,11 @@ export default function SpiritEssence({ context, onConfirm }: SpiritEssenceProps
             backgroundColor: 'hsla(270, 40%, 15%, 0.8)',
             color: 'var(--color-tier-4)',
             border: '1px solid var(--color-tier-4)',
-            display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center'
+            display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto'
           }}>
             <span className="kbd-badge">F</span>
-            <DualInline en="Infuse Spirit Soul" zh="注入灵体精魂" />
+            <DualInline en="Infuse Spirit Essence" zh="注入精魂" />
           </button>
         </div>
       ) : (
